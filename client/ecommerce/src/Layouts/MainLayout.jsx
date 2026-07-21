@@ -12,8 +12,9 @@ const MainLayout = () => {
 
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       <Navbar setCartPopup={setCartPopup} />
+
       <Outlet />
       {/* CartPopup */}
       <AnimatePresence>
@@ -31,7 +32,10 @@ const MainLayout = () => {
           )
         }
       </AnimatePresence>
+
       <Footer />
+
+
     </div>
   )
 }

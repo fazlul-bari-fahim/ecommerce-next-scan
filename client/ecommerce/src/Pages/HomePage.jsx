@@ -10,7 +10,7 @@ import Review from "../Components/HomePage/Review"
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col justify-center items-center w-full  bg-white ">
+    <div className="flex flex-col justify-center items-center w-full ">
       {/* Hero */}
       <Hero />
       <PopularCategories />
@@ -21,6 +21,7 @@ const HomePage = () => {
       <RecentLunched />
       <PopularBrands />
       <Review />
+
 
 
     </div>

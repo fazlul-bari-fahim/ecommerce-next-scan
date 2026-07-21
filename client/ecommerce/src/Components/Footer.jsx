@@ -24,7 +24,7 @@ const Footer = () => {
 
                 {/* 1seciton */}
 
-                <div className="flex flex-row gap-25">
+                <div className="flex flex-row gap-25 max-[376px]:gap-5">
 
 
                     <div className="flex flex-col gap-3">

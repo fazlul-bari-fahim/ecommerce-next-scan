@@ -30,6 +30,7 @@ const productModelSchema = new mongoose.Schema({
     image4: { type: String, required: true },
 
 
+
 }, {
     timestamps: true,
     versionKey: false,

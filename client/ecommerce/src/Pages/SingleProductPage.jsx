@@ -204,13 +204,13 @@ const SingleProductPage = () => {
         <div>
 
             {/* Single Product */}
-            <div className="my-20 mx-20 max-[426px]:mx-5">
+            <div className="my-20 mx-20 max-[426px]:mx-5 flex justify-center items-center">
                 {
                     singleProduct?.map((item) => (
                         <div key={item?._id} className="flex flex-col">
                             <div className="flex flex-row gap-5">
                                 {/* short image */}
-                                <div className="flex flex-col gap-5">
+                                <div className="flex flex-col gap-5 max-[426px]:hidden">
                                     <img onMouseEnter={() => setPreviewImage(item.image1)} className="h-30 max-[850px]:h-15 w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image1}`}></img>
                                     <img onMouseEnter={() => setPreviewImage(item.image2)} className="h-30 max-[850px]:h-15 w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image2}`}></img>
                                     <img onMouseEnter={() => setPreviewImage(item.image3)} className="h-30 max-[850px]:h-15 w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image3}`}></img>
@@ -221,7 +221,7 @@ const SingleProductPage = () => {
 
                                 {/* Big image */}
                                 <div>
-                                    <img className="h-200 max-[850px]:h-80 shadow-xl" src={`${fileURL}/${previewImage || item?.big_image}`}></img>
+                                    <img className="h-200 max-[850px]:h-80 max-[426px]:px-20 shadow-xl" src={`${fileURL}/${previewImage || item?.big_image}`}></img>
                                 </div>
 
 
@@ -411,10 +411,21 @@ const SingleProductPage = () => {
 
 
 
+                            {/*  short image for mobile*/}
+                            <div className="grid grid-cols-2 px-20  gap-y-10 mt-10 min-[426px]:hidden">
+                                <img onMouseEnter={() => setPreviewImage(item.image1)} className="h-40  w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image1}`}></img>
+                                <img onMouseEnter={() => setPreviewImage(item.image2)} className="h-40  w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image2}`}></img>
+                                <img onMouseEnter={() => setPreviewImage(item.image3)} className="h-40  w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image3}`}></img>
+                                <img onMouseEnter={() => setPreviewImage(item.image4)} className="h-40  w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image4}`}></img>
+
+                            </div>
+
+
+
 
                             {/*info for tab & mobile  */}
 
-                            <div div className="mt-8 min-[426px]:hidden" >
+                            <div div className="mt-8 min-[426px]:hidden max-[426px]:pl-20" >
 
 
                                 <h1 className="text-3xl  leading-10 font-semibold max-[850px]:text-sm">{item?.title}</h1>
@@ -430,7 +441,7 @@ const SingleProductPage = () => {
 
 
                             {/* Color */}
-                            <div className="mt-8 min-[426px]:hidden max-[850px]:mt-3">
+                            <div className="mt-8 min-[426px]:hidden max-[426px]:pl-20 max-[850px]:mt-3">
 
 
                                 <h3 className="text-md font-bold max-[850px]:text-[12px]">Select Color</h3>
@@ -461,7 +472,7 @@ const SingleProductPage = () => {
 
 
                             {/* Select Size */}
-                            <div className="mt-8 min-[426px]:hidden max-[850px]:mt-3">
+                            <div className="mt-8 min-[426px]:hidden max-[426px]:pl-20 max-[850px]:mt-3">
                                 <h3 className="text-md font-bold max-[850px]:text-[12px]">Select Size</h3>
                                 <div className="flex gap-3 mt-3 max-[850px]:mt-2">
 
@@ -495,7 +506,7 @@ const SingleProductPage = () => {
 
 
                             {/* Quantity fot tab & mobile*/}
-                            <div className="mt-8 min-[849px]:hidden">
+                            <div className="mt-8 min-[849px]:hidden max-[426px]:pl-20">
                                 <h3 className="text-md font-bold">Quantity</h3>
                                 <div className="border-2 border-black/20 h-8 w-30 mt-3 rounded-sm shadow flex flex-row justify-between items-center">
                                     <button onClick={() => setqty(qty + 1)} className="text-lg font-bold border-r-2 border-black/10 px-3 hover:cursor-pointer">+</button>
@@ -508,10 +519,10 @@ const SingleProductPage = () => {
 
 
                             {/* Button fot tab & mobile*/}
-                            <div className="flex flex-row mt-8 gap-5 min-[849px]:hidden">
+                            <div className="flex flex-row max-[376px]:flex-col mt-8 gap-5 min-[849px]:hidden">
 
-                                <button onClick={() => { AddToCartHandle(item) }} className="border-2 border-black/80  h-12 w-50 hover:cursor-pointer font-semibold bg-black text-white transition-all active:scale-95 duration-200 hover:bg-gray-900 ">Add to Cart</button>
-                                <button onClick={() => ByNowHandle(item)} className=" h-12 w-50 hover:cursor-pointer font-semibold bg-red-600 hover:bg-red-800 transition-all active:scale-95 duration-200 text-white">Buy Now</button>
+                                <button onClick={() => { AddToCartHandle(item) }} className="border-2 border-black/80  h-12 w-50 max-[376px]:w-80 max-[321px]:w-70 hover:cursor-pointer font-semibold bg-black text-white transition-all active:scale-95 duration-200 hover:bg-gray-900 ">Add to Cart</button>
+                                <button onClick={() => ByNowHandle(item)} className=" h-12 w-50 max-[376px]:w-80 max-[321px]:w-70 hover:cursor-pointer font-semibold bg-red-600 hover:bg-red-800 transition-all active:scale-95 duration-200 text-white">Buy Now</button>
 
 
                             </div>
@@ -616,8 +627,8 @@ const SingleProductPage = () => {
                                 )
                             }{
                                 review && (
-                                    <div className="px-3 py-3 text-left flex gap-10">
-                                        <div className="mt-8 max-w-100">
+                                    <div className="px-3 py-3  max-[376px]:w-90 text-left flex max-[426px]:flex-col gap-10">
+                                        <div className="mt-8 max-w-100 max-[376px]:w-80 max-[376px]:pl-10">
                                             <h1 className="text-xl font-semibold">Customer Reviews</h1>
 
                                             {/* Reviews */}
@@ -712,16 +723,16 @@ const SingleProductPage = () => {
                                                 </div>
 
                                                 <h4 className="text-lg text-gray-500 mt-3">Name</h4>
-                                                <input className=" border-2 max-[850px]:w-80 max-[426px]:w-40  border-black/30 w-130  focus:border-0 px-3 h-8 rounded-sm mt-3" type="text" />
+                                                <input className=" border-2 max-[850px]:w-80 max-[426px]:w-90     border-black/30 w-130  focus:border-0 px-3 h-8 rounded-sm mt-3" type="text" />
 
 
                                                 <h4 className="text-lg text-gray-500 mt-3">Email</h4>
-                                                <input className=" border-2 max-[850px]:w-80 max-[426px]:w-40 border-black/30 w-130 focus:border-0 px-3 h-8 rounded-sm mt-3" type="text" />
+                                                <input className=" border-2 max-[850px]:w-80 max-[426px]:w-90 border-black/30 w-130 focus:border-0 px-3 h-8 rounded-sm mt-3" type="text" />
 
 
 
                                                 <h4 className="text-lg text-gray-500 mt-3">Your Review</h4>
-                                                <textarea className=" border-2 max-[850px]:w-80 max-[426px]:w-40 border-black/30 w-130  focus:border-0 px-3 h-80 rounded-sm mt-3" type="text"></textarea>
+                                                <textarea className=" border-2 max-[850px]:w-80 max-[426px]:w-90 border-black/30 w-130  focus:border-0 px-3 h-80 rounded-sm mt-3" type="text"></textarea>
 
 
                                             </div>

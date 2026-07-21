@@ -91,7 +91,7 @@ const Contact = () => {
 
 
 
-          <div className="flex flex-col gap-3 w-80">
+          <div className="flex flex-col gap-3 w-80max-[769px]:w-60">
             <div className="flex flex-row gap-5"><img className="h-10" src={help}></img><h1 className="text-2xl font-semibold">Call Us</h1></div>
             <h3 className="text-lg max-[1025px]:text-sm">Call Our tem Sat-Thus  from 8am to 10pm</h3>
             <div className="flex flex-row gap-3">

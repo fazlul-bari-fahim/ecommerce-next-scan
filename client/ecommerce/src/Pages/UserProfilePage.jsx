@@ -87,11 +87,11 @@ const UserProfilePage = () => {
 
 
     return (
-        <div className="w-full flex flex-col gpa-5">
-            <div className="px-10 py-5 border-b-2 border-gray-300 w-full ">
+        <div className="w-full flex flex-col">
+            <div className="px-10 max-[1025px]:px-3 py-5 border-b-2 border-gray-300 w-full ">
                 <h1 className="text-2xl font-semibold">Customer Information</h1>
             </div>
-            <div className="flex max-[1100px]:flex-col gap-10 px-10 py-5">
+            <div className="flex max-[1100px]:flex-col gap-10 px-10 max-[1025px]:px-3 py-5">
 
 
                 {/* User Information */}
@@ -148,7 +148,7 @@ const UserProfilePage = () => {
                 {/* User Information */}
                 <div className="flex flex-col">
                     <h1 className="text-lg font-semibold">Change User Information</h1>
-                    <form onSubmit={handleSubmit} className="w-180 max-[835px]:w-120 h-auto my-5 gap-3 shadow-md bg-gray-300/50 rounded-lg flex flex-col justify-center items-center px-5 py-8">
+                    <form onSubmit={handleSubmit} className="w-180 max-[835px]:w-120 max-[1025px]:w-150 h-auto my-5 gap-3 shadow-md bg-gray-300/50 rounded-lg flex flex-col justify-center items-center px-5 py-8">
 
                         <div className="flex gap-3 px-2 pb-1 items-center">
                             <label htmlFor="first_name" className="font-semibold text-xl w-30">First Name:</label>

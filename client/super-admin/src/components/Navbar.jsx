@@ -1,7 +1,7 @@
 
 import { NavLink } from "react-router-dom"
 import accoutImage from "../assets/account.png"
-import nightMode from "../assets/night-mode.png"
+// import nightMode from "../assets/night-mode.png"
 
 const Navbar = () => {
   return (
@@ -14,7 +14,7 @@ const Navbar = () => {
       {/* profile & dark mode icon */}
 
       <div className="flex flex-row items-center justify-between w-25">
-        <img src={nightMode} className="h-8 w-8"></img>
+        {/* <img src={nightMode} className="h-8 w-8"></img> */}
         <NavLink to={"/profile"}><img src={accoutImage} className="h-7 w-7 cursor-pointer"></img></NavLink>
       </div>
 
