@@ -1,21 +1,65 @@
 import mongoose from "mongoose";
+const cartItemSchema = new mongoose.Schema(
+    {
+
+        product_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Product",
+            required: true,
+        },
+
+        quantity: {
+            type: Number,
+            default: 1,
+            min: 1,
+        },
+
+        size: {
+            type: String,
+            default: "No",
+        },
 
 
-const cartModleSchema = new mongoose.Schema({
-    user_id: { type: mongoose.Schema.Types.ObjectId, required: true },
-    product_id: { type: mongoose.Schema.Types.ObjectId, required: true },
-    title: { type: String, required: true },
-    big_image: { type: String, required: true },
-    color: { type: String, required: true },
-    size: { type: String, required: true },
-    qty: { type: Number, required: true, min: [0, "Quantity cannot be less than 0"] },
-    discount_price: { type: Number },
-    regular_price: { type: Number },
-}, {
-    timestamps: true,
-    versionKey: false,
-});
+        price: {
+            type: Number,
+            required: true,
+        },
+
+        image: {
+            type: String,
+            default: "",
+        },
+    },
+    {
+        _id: true,
+    }
+);
 
 
-const cartModel = mongoose.model("Cart", cartModleSchema);
+const cartSchema = new mongoose.Schema(
+    {
+        user_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            default: null,
+        },
+
+        guest_id: {
+            type: String,
+            default: null,
+        },
+
+        items: {
+            type: [cartItemSchema],
+            default: [],
+        },
+    },
+    {
+        timestamps: true,
+    }
+);
+
+
+const cartModel = mongoose.model("Cart", cartSchema);
+
 export default cartModel;

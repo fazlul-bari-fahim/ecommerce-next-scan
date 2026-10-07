@@ -61,12 +61,12 @@ const register = async (req, res) => {
 // User Login
 
 const login = async (req, res) => {
-    console.log(req)
+
 
     try {
 
         const { email, password } = req.body;
-        console.log(email, password)
+
 
         const user = await userModel.findOne({ email });
         if (!user) {

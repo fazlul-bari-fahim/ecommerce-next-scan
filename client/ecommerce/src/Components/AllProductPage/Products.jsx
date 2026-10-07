@@ -30,9 +30,9 @@ const Products = () => {
             <div className="flex flex-row justify-between ">
                 {/* left */}
                 <div className="flex flex-row gap-3 max-[770px]:hidden">
-                    <button onClick={() => setSort("sort4")} className={`hover:cursor-pointer border-r-2 px-1 py-1 border-black/10 rounded-sm flex justify-center items-center ${sort === "sort4" ? "bg-red-300" : ""}`}><img className="h-6 w-6" src={grid4}></img></button>
-                    <button onClick={() => setSort("sort3")} className={`hover:cursor-pointer border-r-2 px-1 py-1 border-black/10 rounded-sm flex justify-center items-center ${sort === "sort3" ? "bg-red-300" : ""}`}><img className="h-8 w-8" src={grid}></img></button>
-                    <button onClick={() => setSort("sort2")} className={`hover:cursor-pointer border-r-2 px-1 py-1 border-black/10 rounded-sm flex justify-center items-center ${sort === "sort2" ? "bg-red-300" : ""}`}><img className="h-8 w-8" src={list}></img></button>
+                    <button onClick={() => setSort("sort4")} className={`hover:cursor-pointer border-r-2 px-1 py-1 border-black/10 rounded-sm flex justify-center items-center ${sort === "sort4" ? "bg-[#a8823b]" : ""}`}><img className="h-6 w-6" src={grid4}></img></button>
+                    <button onClick={() => setSort("sort3")} className={`hover:cursor-pointer border-r-2 px-1 py-1 border-black/10 rounded-sm flex justify-center items-center ${sort === "sort3" ? "bg-[#a8823b]" : ""}`}><img className="h-8 w-8" src={grid}></img></button>
+                    <button onClick={() => setSort("sort2")} className={`hover:cursor-pointer border-r-2 px-1 py-1 border-black/10 rounded-sm flex justify-center items-center ${sort === "sort2" ? "bg-[#a8823b]" : ""}`}><img className="h-8 w-8" src={list}></img></button>
 
                 </div>
 

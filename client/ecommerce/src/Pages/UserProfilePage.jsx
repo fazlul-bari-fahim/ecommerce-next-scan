@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import arrow from "../assets/arrow.png"
 import UserStore from "../Store/UserStore"
+import { useNavigate } from "react-router-dom";
 
 
 const UserProfilePage = () => {
@@ -15,6 +17,9 @@ const UserProfilePage = () => {
     const [address, setaddress] = useState("");
     const [state, setstate] = useState("");
     const [password, setpassword] = useState("");
+
+
+    const navigate = useNavigate();
 
 
 
@@ -88,7 +93,8 @@ const UserProfilePage = () => {
 
     return (
         <div className="w-full flex flex-col">
-            <div className="px-10 max-[1025px]:px-3 py-5 border-b-2 border-gray-300 w-full ">
+            <div className="px-10 flex flex-col gap-3 max-[1025px]:px-3 py-5 border-b-2 border-gray-300 w-full ">
+                <button onClick={() => navigate("/all-products")} className="text-white bg-red-600 px-3 rounded-sm font-semibold cursor-pointer w-50 order-2 hover:bg-red-700 flex justify-center  items-center gap-3 py-1"><img className="h-5 w-5 rotate-180" src={arrow}></img> Back to Shopping</button>
                 <h1 className="text-2xl font-semibold">Customer Information</h1>
             </div>
             <div className="flex max-[1100px]:flex-col gap-10 px-10 max-[1025px]:px-3 py-5">

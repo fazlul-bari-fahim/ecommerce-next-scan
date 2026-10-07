@@ -1,83 +1,59 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import adminStore from "../stores/adminStore";
 import { Navigate } from "react-router-dom";
-import { getToken } from "../helpers/helper";
 
-
-const PrivateRoute = ({children}) => {
+const PrivateRoute = ({ children }) => {
 
     const [isLogin, setIsLogin] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const {adminVerifyRequest} = adminStore();
+    const { adminVerifyRequest } = adminStore();
 
-    useEffect(()=>{
-        (async ()=>{
+    useEffect(() => {
+
+        const checkAuth = async () => {
+
             try {
-                await adminVerifyRequest();
-                const result = getToken();
-               
 
-                if(result){
+                const result = await adminVerifyRequest();
+
+
+
+                if (result === true) {
                     setIsLogin(true);
-                }else{
+                } else {
                     setIsLogin(false);
                 }
-                
-            } catch (error) {
-                console.log(error);
-                setIsLogin(false);
-                
-            }finally{
-                setLoading(false);
-            }
-        })();
-    },[adminVerifyRequest]);
 
-    if(loading){
-        return <></>
+            } catch (error) {
+
+                console.log("Private Route Error:", error);
+                setIsLogin(false);
+
+            } finally {
+
+                setLoading(false);
+
+            }
+        };
+
+        checkAuth();
+
+    }, [adminVerifyRequest]);
+
+
+    if (loading) {
+        return (
+            <div className="h-screen flex items-center justify-center">
+                Loading...
+            </div>
+        );
     }
 
-  return isLogin ? children : <Navigate to="/login"/>
-}
 
+    return isLogin
+        ? children
+        : <Navigate to="/login" replace />;
+};
 
-
-
-// const privateRoute = ({children}) => {
-
-//     const [isLogin, setIsLogin] = useState(false);
-//     const [loading, setLoading] = useState(true);
-
-//     const {adminVerifyRequest} = adminStore();
-
-//     useEffect(()=>{
-//         const checkAuth = async ()=>{
-//             try {
-//                 const res = await adminVerifyRequest();
-
-//                 if(res){
-//                     setIsLogin(true);
-//                 }else{
-//                     setIsLogin(false);
-//                 }
-                
-//             } catch (error) {
-//                 console.log(error);
-//                 setIsLogin(false);
-                
-//             }finally{
-//                 setLoading(false);
-//             }
-//         };
-//     checkAuth();
-//     },[adminVerifyRequest]);
-
-//     if(loading){
-//         return <div>Loading...</div>
-//     }
-
-//   return isLogin ? children : <Navigate to='/login'/>
-// }
-
-export default PrivateRoute
+export default PrivateRoute;

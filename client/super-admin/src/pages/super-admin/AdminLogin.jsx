@@ -44,7 +44,7 @@ const AdminLogin = () => {
 
 
       {/* Box */}
-      <div className="min-[426px]:bg-[url('/src/assets/HOMe.png')] max-[426px]:bg-white h-120 w-200 max-[426px]:w-70 max-[426px]:h-80 max-[426px]:rounded-2xl max-[426px]:pr-8 max-[769px]:w-148 rounded-sm border border-[#ed1d24] shadow-2xl shadow-[#ed1d24] flex flex-row justify-start items-center" >
+      <div className="min-[426px]:bg-[url('/src/assets/HOMe.png')] max-[426px]:bg-white h-120 w-200 max-[426px]:w-70 max-[426px]:h-80 max-[426px]:rounded-2xl max-[426px]:pr-8 max-[769px]:w-148 rounded-sm border border-[#011949] shadow-2xl shadow-[#011949] flex flex-row justify-start items-center" >
 
         {/* left */}
         <div className=" h-120 w-100 max-[769px]:w-124 max-[426px]:hidden">
@@ -53,16 +53,16 @@ const AdminLogin = () => {
 
         {/* Right */}
         <div className="h-120 w-100 max-[769px]:w-124 flex flex-col items-center justify-center">
-          <h1 className="text-3xl font-bold text-[#ed1d24] mb-8 max-[769px]:ml-5">Admin Login </h1>
+          <h1 className="text-3xl font-bold text-[#011949] mb-8 max-[769px]:ml-5">Admin Login </h1>
           <form className="relative flex flex-col  gap-2">
-            <label htmlFor="email"><Mail className="text-[#ed1d24] absolute top-4 left-50" /></label>
-            <input onChange={(e) => setData({ ...data, email: e.target.value })} type="eamil" id="email" placeholder="Enter your email" className="max-[769px]:ml-8 border-2 border-[#ed1d24] placeholder:text-[#ed1d24]  py-2 px-2 rounded-xl w-60 max-[769px]:w-50 focus:ring-red-300 focus:outline-none  focus:border-red-500 focus:ring-3 " />
+            <label htmlFor="email"><Mail className="text-[#011949] absolute top-4 left-50" /></label>
+            <input onChange={(e) => setData({ ...data, email: e.target.value })} type="eamil" id="email" placeholder="Enter your email" className="max-[769px]:ml-8 border-2 border-[#011949] placeholder:text-[#011949]  py-2 px-2 rounded-xl w-60 max-[769px]:w-50 focus:ring-[#011949]/30 focus:outline-none  focus:border-[#011949] focus:ring-3 " />
 
-            <label htmlFor="pasword"><KeyRound className="text-[#ed1d24] absolute top-20 left-50" /></label>
-            <input onChange={(e) => setData({ ...data, password: e.target.value })} type="password" id="pasword" placeholder="Type your password" className="max-[769px]:ml-8 border-2 border-[#ed1d24] placeholder:text-[#ed1d24]  py-2 px-2 rounded-xl w-60 max-[769px]:w-50 focus:ring-red-300 focus:outline-none  focus:border-red-500 focus:ring-3" />
+            <label htmlFor="pasword"><KeyRound className="text-[#011949] absolute top-20 left-50" /></label>
+            <input onChange={(e) => setData({ ...data, password: e.target.value })} type="password" id="pasword" placeholder="Type your password" className="max-[769px]:ml-8 border-2 border-[#011949] placeholder:text-[#011949]  py-2 px-2 rounded-xl w-60 max-[769px]:w-50 focus:ring-[#011949]/30 focus:outline-none  focus:border-[#011949] focus:ring-3" />
 
             <button disabled={adminLoginLoading}  // Button will be disabled (not clickable) when loading is true
-              onClick={userSubmit} type="submit" className="btn bg-[#ed1d24] text-white text-lg w-60 max-[769px]:w-50 max-[769px]:ml-8 rounded-lg mt-5 cursor-pointer">
+              onClick={userSubmit} type="submit" className="btn bg-[#a8823b] text-white text-lg w-60 max-[769px]:w-50 max-[769px]:ml-8 rounded-lg mt-5 cursor-pointer">
               {
                 adminLoginLoading ? "Logining..." : "Login"
               }

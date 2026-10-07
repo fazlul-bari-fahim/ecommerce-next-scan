@@ -12,6 +12,7 @@ const productStore = create((set) => ({
 
     productCreateLoading: false,
     productCreateRequest: async ({ data, file }) => {
+        console.log(data)
 
         try {
 
@@ -23,7 +24,22 @@ const productStore = create((set) => ({
             //Text data Add
             Object.keys(data || {}).forEach((key) => {
 
-                formData.append(key, data[key]);
+                const value = data[key];
+
+                if (Array.isArray(value) || typeof value === "object") {
+
+                    formData.append(
+                        key,
+                        JSON.stringify(value)
+                    );
+
+                } else {
+
+                    formData.append(key, value ?? "");
+
+                }
+
+
             });
 
 
@@ -188,7 +204,22 @@ const productStore = create((set) => ({
             //Text data Add
             Object.keys(data || {}).forEach((key) => {
 
-                formData.append(key, data[key]);
+                const value = data[key];
+
+                if (Array.isArray(value) || typeof value === "object") {
+
+                    formData.append(
+                        key,
+                        JSON.stringify(value)
+                    );
+
+                } else {
+
+                    formData.append(key, value ?? "");
+
+                }
+
+
             });
 
 

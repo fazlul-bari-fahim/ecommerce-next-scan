@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: "/super-admin",
+  base: "/",
   build: {
     outDir: "dist",
     assetsDir: "assets",
@@ -21,11 +21,21 @@ export default defineConfig({
       port: 3001,
     },
     proxy: {
-      "/api/": {
-        target: "https://localhost:5000",
+
+      "/api": {
+        target: "https://nlmcrockerys.com",
         changeOrigin: true,
         secure: false,
+
+
+        //  local
+        // target: "http://localhost:5000/",
+        // changeOrigin: true,
+        // secure: false,
       }
+
+
+
     }
   }
 })

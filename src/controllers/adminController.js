@@ -18,15 +18,14 @@ const register = async (req, res) => {
 
     try {
         const { email, password } = req.body;
+        const isUser = await Admin.find({ email });
 
-         const isUser = await Admin.find({email});
-        
-                if(isUser.length>0){
-                    return res.status(500).json({
-                        success:false,
-                        message:"You already registered !"
-                    })
-                };
+        if (isUser.length > 0) {
+            return res.status(500).json({
+                success: false,
+                message: "You already registered !"
+            })
+        };
         const data = await Admin.create({ email, password });
 
         return res.status(201).json({
@@ -61,7 +60,7 @@ const login = async (req, res) => {
             })
 
         const isMatch = await bcrypt.compare(password, user.password);
-       
+
 
         if (!isMatch) return res.status(200).json({
             success: false,
@@ -106,137 +105,137 @@ const admin = async (req, res) => {
 
         const email = req.headers.email;
         const matchStage = {
-            $match:{email},
+            $match: { email },
         };
 
 
         const project = {
-            $project:{
-                password:0,
+            $project: {
+                password: 0,
             },
         };
 
-       const data = await Admin.aggregate([matchStage, project]);
+        const data = await Admin.aggregate([matchStage, project]);
 
 
-       res.status(200).json({
-        success:true,
-        message:"Admin found successfully",
-        data:data,
-       })
-        
+        res.status(200).json({
+            success: true,
+            message: "Admin found successfully",
+            data: data,
+        })
+
     } catch (error) {
 
         res.status(500).json({
-            success:false,
-            error:error.toString(),
-            message:"No admin found"
+            success: false,
+            error: error.toString(),
+            message: "No admin found"
         })
-        
+
     }
 
 }
 
 // Admin verify
 
-const adminVerify = async(req, res)=>{
+const adminVerify = async (req, res) => {
 
     try {
 
         res.status(200).json({
-            success:true
+            success: true
         })
-        
+
     } catch (error) {
 
         return res.status(401).json({
-            success:false,
-            error:error.toString(),
-            message:"No token found"
+            success: false,
+            error: error.toString(),
+            message: "No token found"
         })
-        
+
     }
 };
 
 
 // Logout
 
-const logOut = async (req, res)=>{
+const logOut = async (req, res) => {
 
     try {
-        
+
         res.clearCookie("A_token");
 
         res.status(200).json({
-            success:true,
-            message:"Successfully logout"
+            success: true,
+            message: "Successfully logout"
         })
 
     } catch (error) {
 
         return res.status(500).json({
 
-            success:false,
-            error:error.toString(),
-            message:"Try again later"
+            success: false,
+            error: error.toString(),
+            message: "Try again later"
         })
-        
+
     }
-}
+};
 
 
 // Admin Update 
 
-const update = async (req, res)=>{
+const update = async (req, res) => {
     try {
 
-        const {email, password} = req.body;
+        const { email, password } = req.body;
         const _id = req.headers._id;
-       
-
-        const updateData = {email}
-
-        const user = await Admin.findOne({ email, _id});
 
 
-        if(!user){
+        const updateData = { email }
+
+        const user = await Admin.findOne({ email, _id });
+
+
+        if (!user) {
             return res.status(404).json({
-                success:false,
-                message:"User not found"
+                success: false,
+                message: "email not found"
             })
         };
 
 
-        if(password){
-            const hashedPassword = await bcrypt.hash(password,10);
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10);
             updateData.password = hashedPassword;
         };
 
         const updateAdmin = await Admin.findByIdAndUpdate(_id, updateData, {
-            new:true,
+            new: true,
         });
 
 
         const token = await tokenHelper.EncodedToken(updateAdmin?.email, updateAdmin?._id.toString());
-        res.cookie("A_token",token, options);
+        res.cookie("A_token", token, options);
 
         res.status(200).json({
-            success:true,
-            message:"User updated successfully",
-            data :updateAdmin,
+            success: true,
+            message: "User updated successfully",
+            data: updateAdmin,
         })
-        
+
     } catch (error) {
 
         return res.status(500).json({
-            success:false,
-            error:error.toString(),
-            message:"Try again later"
+            success: false,
+            error: error.toString(),
+            message: "Try again later"
         })
-        
-    }
-}
 
-const adminController = { register, login,  admin, adminVerify, logOut, update};
+    }
+};
+
+const adminController = { register, login, admin, adminVerify, logOut, update };
 export default adminController;
 

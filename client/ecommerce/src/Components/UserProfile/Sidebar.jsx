@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom"
-import user from "../../assets/user (1).png"
+import user from "../../assets/usertwo.png"
 import order from "../../assets/booking.png"
 import UserStore from "../../Store/UserStore"
 
@@ -25,8 +25,8 @@ const Sidebar = () => {
         <div>
             <div className="bg-white border border-gray-100 shadow-lg w-50 max-[426px]:w-30 h-full flex flex-col justify-start px-5 py-10">
                 <ul className="flex flex-col gap-3">
-                    <NavLink to="/dashboard-profile" end className={({ isActive }) => ` text-lg font-semibold ${isActive ? "rounded-r-xl border-l-4 border-red-600 bg-gray-200" : "border-l-4 border-white"} `}><li className="flex gap-2 px-2 items-center py-2 "><img className="h-5" src={user}></img><h3 className="max-[426px]:hidden">Profile</h3></li></NavLink>
-                    <NavLink to="/dashboard-profile/all-orders" className={({ isActive }) => ` text-lg font-semibold ${isActive ? "rounded-r-xl border-l-4 border-red-600 bg-gray-200" : "border-l-4 border-white"} `}><li className="flex  gap-2 px-2 items-center py-2"><img className="h-5" src={order}></img><h3 className="max-[426px]:hidden">All Order</h3></li></NavLink>
+                    <NavLink to="/dashboard-profile" end className={({ isActive }) => ` text-lg font-semibold ${isActive ? "rounded-r-xl border-l-4 border-[#011949] bg-gray-200" : "border-l-4 border-white"} `}><li className="flex gap-2 px-2 items-center py-2 "><img className="h-5" src={user}></img><h3 className="max-[426px]:hidden">Profile</h3></li></NavLink>
+                    <NavLink to="/dashboard-profile/all-orders" className={({ isActive }) => ` text-lg font-semibold ${isActive ? "rounded-r-xl border-l-4 border-[#011949] bg-gray-200" : "border-l-4 border-white"} `}><li className="flex  gap-2 px-2 items-center py-2"><img className="h-5" src={order}></img><h3 className="max-[426px]:hidden">All Order</h3></li></NavLink>
 
 
 

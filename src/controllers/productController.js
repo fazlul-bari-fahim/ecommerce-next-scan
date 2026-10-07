@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import productsModel from "../models/productModel.js";
-import HotDealModel from "../models/hotDealModel.js";
 
 
 const ObjectId = mongoose.Types.ObjectId;
@@ -8,326 +7,682 @@ const ObjectId = mongoose.Types.ObjectId;
 
 // Create Products
 const createProduct = async (req, res) => {
-
-
     try {
 
-        const {
-            title,
-            sub_title,
-            service_we_provide,
-            features,
-            short_description,
+        let {
+            pro_title,
+            pro_sub_title,
+            pro_details,
+            pro_parent_category_id,
+            pro_child_category_id,
+            pro_stock,
+            pro_color,
+            pro_image_type,
+            group_images_price,
+            pro_price_type,
+            pro_size,
             regular_price,
-            is_discount,
-            discount_price,
-            remark,
-            stock,
-            color,
-            size,
-            description,
-            category_id,
-            brand_id,
+            offer_price,
+            group_prices,
+            support_services,
+            terms_conditions,
+            shipping,
+
+
+
 
         } = req.body;
 
 
+        const product_images = req?.files?.product_images || [];
+        const imageNames = product_images.map((image) => image.filename);
 
 
-
-        const big_image = req.files?.big_image?.[0]?.filename;
-        const image1 = req.files?.image1?.[0]?.filename;
-        const image2 = req.files?.image2?.[0]?.filename;
-        const image3 = req.files?.image3?.[0]?.filename;
-        const image4 = req.files?.image4?.[0]?.filename;
+        const group_images = req?.files?.group_images || [];
+        const groupimageNames = group_images.map((image) => image.filename);
 
 
-
-        if (Number(discount_price) > Number(regular_price)) {
-            return res.status(200).json({
-                success: false,
-                message: "Discount price must be smaller then regular price"
-            })
-        } else {
-
-            const data = await productsModel.create({
-
-                title,
-                sub_title,
-                service_we_provide,
-                features,
-                short_description,
-                regular_price,
-                is_discount,
-                discount_price,
-                remark,
-                stock,
-                color,
-                size,
-                description,
-                category_id,
-                brand_id,
-                big_image,
-                image1,
-                image2,
-                image3,
-                image4
-
-
-
-
-            });
-            console.log("Data", data);
-            res.status(201).json({
-                success: true,
-                message: "Product created successfully",
-                Data: data,
-            })
-
+        // images group price parseing
+        if (typeof group_images_price === "string") {
+            try {
+                group_images_price = JSON.parse(group_images_price);
+            } catch (error) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid group_images_price format",
+                });
+            }
         }
-        ;
 
+        if (Array.isArray(group_images_price)) {
+            group_images_price = group_images_price.map(
+                (item) => item.price
+            );
+        }
+
+
+        // group price parsing
+
+        if (typeof group_prices === "string") {
+            try {
+                group_prices = JSON.parse(group_prices);
+            } catch (error) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid group_prices format",
+                });
+            }
+        }
+
+
+        if (Array.isArray(group_prices)) {
+            group_prices = group_prices.map((item) => ({
+                size: item.size,
+                price: Number(item.price),
+            }));
+        }
+
+
+        if (Number(regular_price) < Number(offer_price)) {
+            return res.status(500).json({
+                success: false,
+                message: "Offer price must be less than or equal to the regular price.",
+
+            })
+        }
+
+
+
+
+        const data = await productsModel.create({
+
+            pro_title,
+            pro_sub_title,
+            pro_details,
+            pro_parent_category_id,
+            pro_child_category_id,
+            pro_stock,
+            pro_color,
+            pro_image_type,
+            product_images,
+            product_images: imageNames,
+            group_images: groupimageNames,
+            group_images_price,
+            pro_price_type,
+            pro_size,
+            regular_price,
+            offer_price,
+            group_prices,
+            support_services,
+            terms_conditions,
+            shipping
+
+
+        });
+
+
+        // =====================================================
+        // RESPONSE
+        // =====================================================
+
+        return res.status(201).json({
+            success: true,
+            message: "Product created successfully",
+            Data: data,
+        });
 
 
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
+
+        console.log(error);
+
+        return res.status(500).json({
             success: false,
             message: "Something went wrong",
-            error: error.toString(),
-        })
-
+            error: error.message,
+        });
     }
 };
 
+
 // Get All Products
 
+
+// =====================================================
+// GET ALL PRODUCTS
+// =====================================================
 
 const allProducts = async (req, res) => {
     try {
         const {
             category_id,
-            brand_id,
             remark,
             keyword,
             per_page,
-            page_no
+            page_no,
+            from_price,
+            to_price,
         } = req.params;
 
+        // =====================================================
+        // PAGINATION
+        // =====================================================
 
+        const limit = Math.max(Number(per_page) || 16, 1);
+        const page = Math.max(Number(page_no) || 1, 1);
+        const skip = (page - 1) * limit;
 
+        // =====================================================
+        // PRICE FILTER
+        // =====================================================
 
+        const fromPrice = Number(from_price) || 0;
+        const toPrice = Number(to_price) || 0;
 
+        // =====================================================
+        // MATCH CONDITION
+        // =====================================================
 
+        const matchStage = {};
 
+        // =====================================================
+        // CATEGORY FILTER
+        // =====================================================
 
-        let matchStage = {};
+        if (
+            category_id &&
+            category_id !== "0" &&
+            mongoose.Types.ObjectId.isValid(category_id)
+        ) {
+            const categoryId = new mongoose.Types.ObjectId(category_id);
 
-        // category filter
-        if (category_id !== "0" && mongoose.Types.ObjectId.isValid(category_id)) {
-            matchStage.category_id = new mongoose.Types.ObjectId(category_id);
+            matchStage.$or = [
+                {
+                    pro_parent_category_id: categoryId,
+                },
+                {
+                    pro_child_category_id: categoryId,
+                },
+            ];
         }
 
-        // brand filter
-        if (brand_id !== "0" && mongoose.Types.ObjectId.isValid(brand_id)) {
-            matchStage.brand_id = new mongoose.Types.ObjectId(brand_id);
-        }
+        // =====================================================
+        // REMARK FILTER
+        // =====================================================
 
-        // remark filter
-        if (remark !== "0") {
+        if (remark && remark !== "0") {
             matchStage.remark = remark;
         }
 
-        // keyword search
-        if (keyword !== "0") {
-            matchStage.title = { $regex: keyword, $options: "i" };
+        // =====================================================
+        // KEYWORD FILTER
+        // =====================================================
 
-        }
-
-
-        const skipRow = (page_no - 1) * per_page;   // Ex: page_no = 5 , per_page = 10 , before 4 page * total product 10 = skip = 40 product
-        const sortStage = { createdAt: -1 };
-
-
-
-
-        // const facetStage = {
-        //     $facet: {
-        //         totalCount: [{ $count: "count" }],
-        //         products: [
-
-        //             // Category
-        //             {
-        //                 $lookup: {
-        //                     from: "categories",
-        //                     localField: "category_id",
-        //                     foreignField: "_id",
-        //                     as: "category",
-        //                 },
-        //             },
-        //             // Brand
-        //             {
-        //                 $lookup: {
-        //                     from: "brands",
-        //                     localField: "brand_id",
-        //                     foreignField: "_id",
-        //                     as: "brand",
-        //                 },
-
-        //             },
-        //             {
-        //                 $unwind: {
-        //                     path: "$category",
-        //                     preserveNullAndEmptyArrays: true
-        //                 }
-        //             },
-        //             {
-        //                 $unwind: {
-        //                     path: "$brand",
-        //                     preserveNullAndEmptyArrays: true
-        //                 }
-        //             },
-        //             { $sort: sortStage },
-        //             { $skip: skipRow },
-        //             { $limit: Number(per_page) },
-        //             {
-        //                 $project: {
-        //                     updatedAt: 0,
-        //                     products: 0,
-        //                 }
-        //             }
-        //         ]
-        //     }
-        // };
-
-
-
-        // find(matchStage).skip(skip).limit(limit)
-
-
-
-        const pipeline = [
-            {
-                $lookup: {
-                    from: "categories",
-                    localField: "category_id",
-                    foreignField: "_id",
-                    as: "category",
-                },
-            },
-            {
-                $unwind: {
-                    path: "$category",
-                    preserveNullAndEmptyArrays: true,
-                },
-            },
-            {
-                $lookup: {
-                    from: "brands",
-                    localField: "brand_id",
-                    foreignField: "_id",
-                    as: "brand",
-                },
-            },
-            {
-                $unwind: {
-                    path: "$brand",
-                    preserveNullAndEmptyArrays: true,
-                },
-            },
-            {
-                $match: {
-                    ...(category_id !== "0" &&
-                        mongoose.Types.ObjectId.isValid(category_id) && {
-                        category_id: new mongoose.Types.ObjectId(category_id),
-                    }),
-
-                    ...(brand_id !== "0" &&
-                        mongoose.Types.ObjectId.isValid(brand_id) && {
-                        brand_id: new mongoose.Types.ObjectId(brand_id),
-                    }),
-
-                    ...(remark !== "0" && { remark }),
-
-                    ...(keyword !== "0" && {
-                        $or: [
-                            { title: { $regex: keyword, $options: "i" } },
-                            { sub_title: { $regex: keyword, $options: "i" } },
-                            { short_description: { $regex: keyword, $options: "i" } },
-                            { description: { $regex: keyword, $options: "i" } },
-                            { "brand.brand_name": { $regex: keyword, $options: "i" } },
-                            { "category.category_name": { $regex: keyword, $options: "i" } },
-                        ],
-                    }),
-                },
-            },
-            {
-                $facet: {
-                    totalCount: [{ $count: "count" }],
-                    products: [
-                        { $sort: { createdAt: -1 } },
-                        { $skip: skipRow },
-                        { $limit: Number(per_page) },
+        if (keyword && keyword !== "0") {
+            matchStage.$and = [
+                {
+                    $or: [
                         {
-                            $project: {
-                                updatedAt: 0,
+                            pro_title: {
+                                $regex: keyword,
+                                $options: "i",
+                            },
+                        },
+                        {
+                            pro_sub_title: {
+                                $regex: keyword,
+                                $options: "i",
+                            },
+                        },
+                        {
+                            pro_details: {
+                                $regex: keyword,
+                                $options: "i",
+                            },
+                        },
+                        {
+                            support_services: {
+                                $regex: keyword,
+                                $options: "i",
+                            },
+                        },
+                        {
+                            terms_conditions: {
+                                $regex: keyword,
+                                $options: "i",
+                            },
+                        },
+                        {
+                            shipping: {
+                                $regex: keyword,
+                                $options: "i",
                             },
                         },
                     ],
                 },
+            ];
+        }
+
+        // =====================================================
+        // PRICE MATCH
+        // =====================================================
+
+        const priceMatch = {};
+
+        if (fromPrice > 0) {
+            priceMatch.$gte = fromPrice;
+        }
+
+        if (toPrice > 0) {
+            priceMatch.$lte = toPrice;
+        }
+
+        // =====================================================
+        // BASE PIPELINE
+        // =====================================================
+
+        const basePipeline = [
+            {
+                $match: matchStage,
+            },
+
+            // =================================================
+            // EFFECTIVE PRICE
+            // =================================================
+
+            {
+                $addFields: {
+                    effectivePrice: {
+                        $cond: [
+                            {
+                                $eq: [
+                                    "$pro_price_type",
+                                    "single",
+                                ],
+                            },
+
+                            // Single price
+                            {
+                                $ifNull: [
+                                    "$offer_price",
+                                    0,
+                                ],
+                            },
+
+                            // Group price
+                            // এখানে group-এর lowest price
+                            {
+                                $ifNull: [
+                                    {
+                                        $min: "$group_prices.price",
+                                    },
+                                    0,
+                                ],
+                            },
+                        ],
+                    },
+                },
             },
         ];
 
+        // =====================================================
+        // PRODUCT PIPELINE
+        // =====================================================
 
-        const data = await productsModel.aggregate(pipeline);
+        const productPipeline = [
+            ...basePipeline,
+
+            // =================================================
+            // PRICE FILTER
+            // =================================================
+
+            ...(Object.keys(priceMatch).length > 0
+                ? [
+                    {
+                        $match: {
+                            effectivePrice: priceMatch,
+                        },
+                    },
+                ]
+                : []),
+
+            // =================================================
+            // PARENT CATEGORY
+            // =================================================
+
+            {
+                $lookup: {
+                    from: "parentcategories",
+                    localField: "pro_parent_category_id",
+                    foreignField: "_id",
+                    as: "parentcategory",
+                },
+            },
+
+            {
+                $unwind: {
+                    path: "$parentcategory",
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
+
+            // =================================================
+            // CHILD CATEGORY
+            // =================================================
+
+            {
+                $lookup: {
+                    from: "childcategories",
+                    localField: "pro_child_category_id",
+                    foreignField: "_id",
+                    as: "childcategory",
+                },
+            },
+
+            {
+                $unwind: {
+                    path: "$childcategory",
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
+
+            // =================================================
+            // PAGINATION
+            // =================================================
+
+            {
+                $sort: {
+                    createdAt: -1,
+                },
+            },
+
+            {
+                $skip: skip,
+            },
+
+            {
+                $limit: limit,
+            },
+
+            {
+                $project: {
+                    updatedAt: 0,
+                },
+            },
+        ];
+
+        // =====================================================
+        // HIGHEST PRICE PIPELINE
+        // =====================================================
+        // এখানে from_price / to_price apply হবে না।
+        //
+        // তাই user price filter করলেও
+        // highestPrice সবসময় সব product-এর maximum price হবে।
+        // =====================================================
+
+        const highestPricePipeline = [
+            ...basePipeline,
+
+            {
+                $group: {
+                    _id: null,
+
+                    maxPrice: {
+                        $max: "$effectivePrice",
+                    },
+                },
+            },
+        ];
+
+        // =====================================================
+        // DATABASE
+        // =====================================================
+
+        const [products, highestPriceResult] =
+            await Promise.all([
+                productsModel.aggregate(productPipeline),
+
+                productsModel.aggregate(
+                    highestPricePipeline
+                ),
+            ]);
+
+        // =====================================================
+        // TOTAL COUNT
+        // =====================================================
+
+        const countPipeline = [
+            ...basePipeline,
+
+            ...(Object.keys(priceMatch).length > 0
+                ? [
+                    {
+                        $match: {
+                            effectivePrice: priceMatch,
+                        },
+                    },
+                ]
+                : []),
+
+            {
+                $count: "count",
+            },
+        ];
+
+        const countResult =
+            await productsModel.aggregate(countPipeline);
+
+        const totalProducts =
+            countResult?.[0]?.count || 0;
+
+        // =====================================================
+        // HIGHEST PRICE
+        // =====================================================
+
+        const highestPrice =
+            highestPriceResult?.[0]?.maxPrice || 0;
+
+        // =====================================================
+        // TOTAL PAGES
+        // =====================================================
+
+        const totalPages =
+            Math.ceil(totalProducts / limit);
+
+        // =====================================================
+        // RESPONSE
+        // =====================================================
 
         return res.status(200).json({
             success: true,
-            data: data,
-            message: "Data Fatched Successfully"
+
+            message: "Data Fetched Successfully",
+
+            data: {
+                products,
+
+                totalProducts,
+
+                currentPage: page,
+
+                perPage: limit,
+
+                totalPages,
+
+                // সব product থেকে highest price
+                highestPrice,
+
+                // বর্তমানে applied filter
+                fromPrice,
+
+                toPrice,
+
+                hasNextPage:
+                    page < totalPages,
+
+                hasPreviousPage:
+                    page > 1,
+            },
         });
 
     } catch (error) {
+        console.log(
+            "All Products Error:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+
+            message: "Something went wrong",
+
+            error: error.message,
+        });
+    }
+};
+
+// get by category
+
+
+// Get Category Products
+const categoryProducts = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+
+        // ObjectId validate
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid category id",
+            });
+        }
+
+        const categoryId = new mongoose.Types.ObjectId(id);
+
+        const data = await productsModel.find({
+            $or: [
+                {
+                    pro_parent_category_id: categoryId
+                },
+                {
+                    pro_child_category_id: categoryId
+                }
+            ]
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Category products fetched successfully",
+            data: data,
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
         return res.status(500).json({
             success: false,
             message: "Something went wrong",
-            error: error.toString()
+            error: error.toString(),
         });
     }
 };
 
 
-// search suggestion
+// =====================================================
+// SEARCH SUGGESTION
+// =====================================================
 
 const searchSuggestion = async (req, res) => {
     try {
         const { keyword } = req.params;
 
-        if (!keyword || keyword === "0") {
-            return res.json({
+        // Empty keyword check
+        if (!keyword || keyword === "0" || !keyword.trim()) {
+            return res.status(200).json({
                 success: true,
                 data: [],
             });
         }
 
+        // Escape special regex characters
+        const escapedKeyword = keyword.trim().replace(
+            /[.*+?^${}()|[\]\\]/g,
+            "\\$&"
+        );
+
+        // Search products
         const products = await productsModel
             .find({
-                title: {
-                    $regex: keyword,
-                    $options: "i",
-                },
+                $or: [
+                    {
+                        pro_title: {
+                            $regex: escapedKeyword,
+                            $options: "i",
+                        },
+                    },
+                    {
+                        pro_sub_title: {
+                            $regex: escapedKeyword,
+                            $options: "i",
+                        },
+                    },
+                ],
             })
-            .select("title big_image regular_price discount_price")
-            .limit(8);
+            .select(
+                "pro_title pro_sub_title pro_image_type product_images group_images regular_price offer_price pro_price_type group_prices group_images_price"
+            )
+            .limit(8)
+            .lean();
 
-        res.json({
-            success: true,
-            data: products,
+
+
+        // Prepare suggestion data
+        const suggestions = products.map((item) => {
+            let image = "";
+            let price = 0;
+
+            // Group image
+            if (item.pro_image_type === "group") {
+                image = item.group_images?.[0] || "";
+                price = item.group_images_price?.[0] || 0;
+            }
+
+            // Normal image
+            else if (item.pro_image_type === "normal") {
+                image = item.product_images?.[0] || "";
+
+                // Single price
+                if (item.pro_price_type === "single") {
+                    price = item.offer_price || 0;
+                }
+
+                // Group price
+                else if (item.pro_price_type === "group") {
+                    price = item.group_prices?.[0]?.price || 0;
+                }
+            }
+
+            return {
+                ...item,
+                image,
+                price,
+            };
         });
-    } catch (err) {
-        res.status(500).json({
+
+        return res.status(200).json({
+            success: true,
+            data: suggestions,
+        });
+
+    } catch (error) {
+        console.log("Search Suggestion Error:", error);
+
+        return res.status(500).json({
             success: false,
-            message: err.message,
+            message: "Something went wrong",
+            error: error.message,
         });
     }
 };
@@ -342,26 +697,28 @@ const singleProducts = async (req, res) => {
             $match: { _id: id },
         };
 
-        const joinWithCategory = {
+        const joinWithParentCategory = {
             $lookup: {
-                from: "categories",
-                localField: "category_id",
+                from: "parentcategories",
+                localField: "pro_parent_category_id",
                 foreignField: "_id",
-                as: "category",
+                as: "parentCategory",
             },
         };
 
 
-        const joinWithBrand = {
+        const joinWithChildCategory = {
             $lookup: {
-                from: "brands",
-                localField: "brand_id",
+                from: "childcategories",
+                localField: "pro_child_category_id",
                 foreignField: "_id",
-                as: "brand",
+                as: "childCategory",
             },
         };
 
-        const data = await productsModel.aggregate([matchStage, joinWithBrand, joinWithCategory]);
+
+
+        const data = await productsModel.aggregate([matchStage, joinWithParentCategory, joinWithChildCategory]);
 
         res.status(200).json({
             success: true,
@@ -383,17 +740,17 @@ const singleProducts = async (req, res) => {
 
 // Get Category products
 
-const categoryProducts = async (req, res) => {
+const parentCategoryProducts = async (req, res) => {
     try {
         const id = req.params.id;
 
 
 
-        const data = await productsModel.find({ category_id: id });
+        const data = await productsModel.find({ pro_parent_category_id: id });
 
         res.status(200).json({
             success: true,
-            message: "Category Product fatched successfully",
+            message: "Parent Category Product fatched successfully",
             data: data,
         })
 
@@ -420,65 +777,166 @@ const updateProducts = async (req, res) => {
         const { id } = req.params;
 
 
-        const {
-            title,
-            sub_title,
-            service_we_provide,
-            features,
-            category_id,
-            brand_id,
-            short_description,
-            regular_price,
-            discount_price,
-            size,
-            color,
-            is_discount,
-            remark,
-            stock,
-            description,
 
+        let {
+            pro_title,
+            pro_sub_title,
+            pro_details,
+            pro_parent_category_id,
+            pro_child_category_id,
+            pro_stock,
+            pro_color,
+            pro_image_type,
+            group_images_price,
+            pro_price_type,
+            pro_size,
+            regular_price,
+            offer_price,
+            group_prices,
+            support_services,
+            terms_conditions,
+            shipping,
+
+
+            // extra
+            product_images_string,
+            group_images_string
         } = req.body;
 
 
+        // single image convert
+        if (typeof product_images_string === "string") {
+            try {
+                product_images_string = JSON.parse(product_images_string);
+            } catch (error) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid product_images_string format",
+                });
+            }
+        }
 
 
 
 
 
-        const big_image = req.files?.big_image?.[0]?.filename;
-        const image1 = req.files?.image1?.[0]?.filename;
-        const image2 = req.files?.image2?.[0]?.filename;
-        const image3 = req.files?.image3?.[0]?.filename;
-        const image4 = req.files?.image4?.[0]?.filename;
+
+        // group image convert
+        let group_images_data = [];
+
+        if (typeof group_images_string === "string") {
+            try {
+                group_images_string = JSON.parse(group_images_string);
+            } catch (error) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid group_images_string format",
+                });
+            }
+        }
+
+        if (Array.isArray(group_images_string)) {
+            group_images_data = group_images_string.map(
+                (item) => item.image
+            );
+        }
 
 
-        const product = await productsModel.findById(id);
+
+        const product_images = req?.files?.product_images || [];
+        const imageNames = product_images.map((image) => image.filename);
+
+
+        const group_images = req?.files?.group_images || [];
+        const groupimageNames = group_images.map((image) => image.filename);
+
+
+
+
+
+
+
+
+        // images group price parseing
+        if (typeof group_images_price === "string") {
+            try {
+                group_images_price = JSON.parse(group_images_price);
+            } catch (error) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid group_images_price format",
+                });
+            }
+        }
+
+        if (Array.isArray(group_images_price)) {
+            group_images_price = group_images_price.map(
+                (item) => item.price
+            );
+        }
+
+
+        // group price parsing
+
+        if (typeof group_prices === "string") {
+            try {
+                group_prices = JSON.parse(group_prices);
+            } catch (error) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid group_prices format",
+                });
+            }
+        }
+
+
+        if (Array.isArray(group_prices)) {
+            group_prices = group_prices.map((item) => ({
+                size: item.size,
+                price: Number(item.price),
+            }));
+        }
+
+
+        if (Number(regular_price) < Number(offer_price)) {
+            return res.status(400).json({
+                success: false,
+                message: "Offer price must be less than or equal to the regular price.",
+            });
+        }
+
+
+
+
+        // const product = await productsModel.findById(id);
+
 
 
 
         const updateData = {
-            title,
-            sub_title,
-            service_we_provide,
-            features,
-            category_id,
-            brand_id,
-            short_description,
-            regular_price,
-            discount_price,
-            size,
-            color,
-            is_discount,
-            remark,
-            stock,
-            description,
 
-            // image 
-            big_image: big_image || product.big_image,
-            image1: image1 || product.image1,
-            image2: image2 || product.image2,
-            image3: image3 || product.image3,
-            image4: image4 || product.image4,
+
+            pro_title,
+            pro_sub_title,
+            pro_details,
+            pro_parent_category_id,
+            pro_child_category_id,
+            pro_stock,
+            pro_color,
+            pro_image_type,
+            product_images,
+            product_images: imageNames.length > 0 ? imageNames : product_images_string,
+            group_images: groupimageNames.length > 0 ? groupimageNames : group_images_data,
+            group_images_price,
+            pro_price_type,
+            pro_size,
+            regular_price,
+            offer_price,
+            group_prices,
+            support_services,
+            terms_conditions,
+            shipping
+
 
 
 
@@ -486,24 +944,19 @@ const updateProducts = async (req, res) => {
 
 
 
-        if (Number(discount_price) > Number(regular_price)) {
-            return res.status(500).json({
-                success: false,
-                message: "Discount price must be smaller then main price",
-            })
-        } else {
-            const data = await productsModel.findByIdAndUpdate(
-                id,
-                updateData,
-                {
-                    returnDocument: "after",
-                });
-            res.status(200).json({
-                success: true,
-                message: "Data Updated Successfully",
-                NewData: data,
-            })
-        }
+
+        const data = await productsModel.findByIdAndUpdate(
+            id,
+            updateData,
+            {
+                returnDocument: "after",
+            });
+        res.status(200).json({
+            success: true,
+            message: "Data Updated Successfully",
+            NewData: data,
+        })
+
 
 
 
@@ -525,21 +978,21 @@ const deleteProduct = async (req, res) => {
         const { id } = req.params;
 
 
-        const IshotDeal = await HotDealModel.findOne({ product_id: id });
+        // const IshotDeal = await HotDealModel.findOne({ product_id: id });
 
 
 
         // Condtion 
-        if (IshotDeal) {
+        // if (IshotDeal) {
 
-            return res.status(400).json({
-                success: false,
-                message: "Remove from Hot Deal before deleting"
-            })
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: "Remove from Hot Deal before deleting"
+        //     })
 
 
 
-        }
+        // }
 
         await productsModel.findByIdAndDelete(id);
         return res.status(200).json({
@@ -563,5 +1016,5 @@ const deleteProduct = async (req, res) => {
     }
 }
 
-const productController = { createProduct, allProducts, searchSuggestion, singleProducts, updateProducts, deleteProduct, categoryProducts };
+const productController = { createProduct, allProducts, categoryProducts, searchSuggestion, singleProducts, updateProducts, deleteProduct, parentCategoryProducts };
 export default productController;

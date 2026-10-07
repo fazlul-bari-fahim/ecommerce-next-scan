@@ -62,7 +62,7 @@ export const ProductSection = () => {
         <h1 className="text-4xl font-bold max-[380px]:text-sm">New Arrival Products</h1>
         <div className="flex gap-3 justify-center items-center">
           <div className="bg-black border-t w-20"></div>
-          <div className="bg-red-600">
+          <div className="bg-[#1f2736]">
             <img className="h-8 " src={qrpayment}></img>
           </div>
           <div className="bg-black border-t w-20"></div>

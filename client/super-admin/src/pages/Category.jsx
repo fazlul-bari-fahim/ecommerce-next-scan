@@ -2,6 +2,7 @@ import edit from "../assets/editing.png"
 import Delete from "../assets/delete.png"
 import categoryStore from "../stores/categoryStore"
 import { useEffect, useState } from "react"
+import { fileURL } from "../helpers/config"
 
 
 const Category = () => {
@@ -154,7 +155,7 @@ const Category = () => {
               <div className="flex flex-row items-center gap-10 max-[426px]:gap-5">
                 <h1 className="text-2xl w-60 max-[426px]:w-30 font-bold max-[426px]:text-[15px]">{item.category_name}</h1>
                 <div className="bg-gray-400/40 h-10 max-[426px]:h-5 rounded-lg flex justify-center items-center">
-                  <img className="h-7 w-7" src={`http://localhost:5000/api/v1/get-file/${item.category_image}`}></img>
+                  <img className="h-7 w-7" src={`${fileURL}/${item.category_image}`}></img>
                 </div>
 
 

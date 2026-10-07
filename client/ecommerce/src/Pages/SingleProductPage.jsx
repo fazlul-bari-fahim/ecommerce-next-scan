@@ -42,6 +42,12 @@ const SingleProductPage = () => {
     const [color, setcolor] = useState("");
     const [size, setsize] = useState("");
     const [qty, setqty] = useState(1);
+    const [discount_price, setdiscount_price] = useState("");
+    const [regular_price, setregular_price] = useState("");
+
+
+
+
 
     const [loginPopup, setLoginPopup] = useState(false);
 
@@ -58,6 +64,7 @@ const SingleProductPage = () => {
         try {
             setSelectedItem(item);
             const token = getToken();
+            console.log("token", token);
 
             if (token === true) {
                 const result = await CartCreateRequest({
@@ -67,8 +74,8 @@ const SingleProductPage = () => {
                         color: color,
                         size: size,
                         qty: qty,
-                        discount_price: item?.discount_price,
-                        regular_price: item?.regular_price,
+                        discount_price: discount_price,
+                        regular_price: regular_price,
 
 
                     },
@@ -110,8 +117,8 @@ const SingleProductPage = () => {
                         color: color,
                         size: size,
                         qty: qty,
-                        discount_price: item?.discount_price,
-                        regular_price: item?.regular_price,
+                        discount_price: discount_price,
+                        regular_price: regular_price,
 
 
                     },
@@ -121,6 +128,7 @@ const SingleProductPage = () => {
                     }
 
                 });
+
                 if (result === true) {
 
                     setCartPopup(true);
@@ -128,6 +136,7 @@ const SingleProductPage = () => {
 
                     return;
                 }
+
             } else {
                 setLoginPopup(true);
 
@@ -144,8 +153,23 @@ const SingleProductPage = () => {
     useEffect(() => {
         if (singleProduct?.length > 0) {
             setPreviewImage(singleProduct[0].big_image);
+            setsize(singleProduct?.[0]?.group_price?.[0]?.size || "");
+
+            if (singleProduct?.[0]?.priceType === "single") {
+                setregular_price(singleProduct?.[0]?.regular_price || "");
+                setdiscount_price(singleProduct?.[0]?.discount_price || "");
+            } else if (singleProduct?.[0]?.priceType === "group") {
+                setregular_price(singleProduct?.[0]?.group_price?.[0]?.price || "");
+                setdiscount_price(singleProduct?.[0]?.group_price?.[0]?.price || "");
+            }
+
+
+
+
+
         }
     }, [singleProduct]);
+
 
 
 
@@ -200,6 +224,12 @@ const SingleProductPage = () => {
 
 
 
+
+
+
+
+
+
     return (
         <div>
 
@@ -208,31 +238,82 @@ const SingleProductPage = () => {
                 {
                     singleProduct?.map((item) => (
                         <div key={item?._id} className="flex flex-col">
-                            <div className="flex flex-row gap-5">
-                                {/* short image */}
-                                <div className="flex flex-col gap-5 max-[426px]:hidden">
-                                    <img onMouseEnter={() => setPreviewImage(item.image1)} className="h-30 max-[850px]:h-15 w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image1}`}></img>
-                                    <img onMouseEnter={() => setPreviewImage(item.image2)} className="h-30 max-[850px]:h-15 w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image2}`}></img>
-                                    <img onMouseEnter={() => setPreviewImage(item.image3)} className="h-30 max-[850px]:h-15 w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image3}`}></img>
-                                    <img onMouseEnter={() => setPreviewImage(item.image4)} className="h-30 max-[850px]:h-15 w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image4}`}></img>
+                            <div className="flex flex-row max-[426px]:flex-col gap-5">
+                                {/*  image */}
+                                <div className="flex gap-5 max-[426px]:flex-col ">
 
-                                </div>
+                                    <div className="flex flex-col max-[426px]:grid max-[426px]:grid-cols-2 max-[426px]:pl-5 gap-5 max-[426px]:order-2">
+                                        <img onMouseEnter={() => setPreviewImage(item.image1)} className="h-30 max-[426px]:w-15  max-[426px]:h-20 max-[850px]:h-15 w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image1}`}></img>
+                                        <img onMouseEnter={() => setPreviewImage(item.image2)} className="h-30 max-[426px]:w-15  max-[426px]:h-20  max-[850px]:h-15 w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image2}`}></img>
+                                        <img onMouseEnter={() => setPreviewImage(item.image3)} className="h-30 max-[426px]:w-15  max-[426px]:h-20 max-[850px]:h-15 w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image3}`}></img>
+                                        <img onMouseEnter={() => setPreviewImage(item.image4)} className="h-30 max-[426px]:w-15  max-[426px]:h-20 max-[850px]:h-15 w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image4}`}></img>
+
+                                    </div>
 
 
-                                {/* Big image */}
-                                <div>
-                                    <img className="h-200 max-[850px]:h-80 max-[426px]:px-20 shadow-xl" src={`${fileURL}/${previewImage || item?.big_image}`}></img>
+                                    {/* Big image */}
+                                    <div className="max-[426px]:order-1">
+                                        <img className="h-200 max-[850px]:h-80 shadow-xl" src={`${fileURL}/${previewImage || item?.big_image}`}></img>
+                                    </div>
+
+
+
+
+
                                 </div>
 
 
 
                                 {/* Info */}
-                                <div className="ml-5  max-w-130 flex flex-col gap-2 max-[426px]:hidden">
+                                <div className="ml-5  max-w-130 flex flex-col gap-2">
                                     <h1 className="text-3xl  leading-10 font-semibold max-[850px]:text-sm">{item?.title}</h1>
                                     <h3 className="text-gray-600 text-sm font-semibold max-[850px]:text-[12px]">{item?.remark}</h3>
                                     <p className="text-sm max-[850px]:text-[12px]">{item?.sub_title}</p>
-                                    <strike className="text-2xl font-semibold text-red-700 max-[850px]:text-[14px]">{item?.regular_price}</strike>
-                                    <h3 className="text-4xl font-bold max-[850px]:text-2xl">{item?.discount_price}</h3>
+
+                                    {/* Price */}
+
+
+                                    <div>
+
+                                        {/* Single Price */}
+                                        {
+                                            item?.priceType === "single" ? (
+                                                <div className="flex flex-col gap-3">
+
+                                                    <strike className="text-2xl font-semibold text-red-700 max-[850px]:text-[14px]">{item?.regular_price}</strike>
+                                                    <h3 className="text-4xl font-bold max-[850px]:text-2xl">{item?.discount_price}</h3>
+
+                                                </div>
+                                            ) : item?.priceType === "group" ? (
+                                                <div className="flex gap-3 mt-3 flex-col">
+                                                    <h3 className="text-md font-bold max-[850px]:text-[12px]">Select Size</h3>
+                                                    <div className="flex max-[426px]:flex-col gap-3">
+                                                        {
+                                                            item?.group_price?.map((groupItem) => (
+                                                                <div>
+                                                                    <label key={groupItem?._id} className="cursor-pointer">
+                                                                        <input value={groupItem?.size} checked={size === groupItem?.size} onChange={(e) => setsize(e.target.value)} name="size" type="radio" className="hidden peer" />
+                                                                        <div onClick={() => { setdiscount_price(groupItem?.price), setregular_price(groupItem?.price) }} className=" w-15 h-10 max-[850px]:h-8 peer-checked:bg-[#a8823b] peer-checked:font-bold border-black/10 border-2 flex justify-center items-center rounded-sm shadow-lg">
+                                                                            <h3>{groupItem?.size}</h3>
+
+
+                                                                        </div>
+                                                                    </label>
+                                                                </div>
+                                                            ))
+                                                        }
+
+                                                        {/* Price */}
+                                                    </div>
+                                                    <h3 className="text-4xl mt-3 font-semibold">{discount_price}</h3>
+
+                                                </div>
+                                            ) : <div></div>
+                                        }
+
+                                    </div>
+
+
 
 
 
@@ -248,7 +329,8 @@ const SingleProductPage = () => {
 
 
                                             {
-                                                item?.color?.[0]?.split(",")?.map((clr, index) => (
+                                                item?.color?.map((clr, index) => (
+
                                                     <label key={index} className="cursor-pointer">
                                                         <input value={clr} onChange={() => setcolor(clr)} type="radio" name="color" className="hidden peer" />
 
@@ -270,7 +352,7 @@ const SingleProductPage = () => {
 
 
                                     {/* Select Size */}
-                                    <div className="mt-8 max-[850px]:mt-3">
+                                    {/* <div className="mt-8 max-[850px]:mt-3">
                                         <h3 className="text-md font-bold max-[850px]:text-[12px]">Select Size</h3>
                                         <div className="flex gap-3 mt-3 max-[850px]:mt-2">
 
@@ -298,7 +380,7 @@ const SingleProductPage = () => {
 
 
                                         </div>
-                                    </div>
+                                    </div> */}
 
 
                                     {/* Quantity */}
@@ -317,7 +399,7 @@ const SingleProductPage = () => {
                                     {/* Button */}
                                     <div className="flex flex-row mt-8 gap-5 max-[850px]:hidden">
 
-                                        <button onClick={() => { AddToCartHandle(item) }} className="border-2 border-black/80  h-12 w-50 hover:cursor-pointer font-semibold bg-black text-white transition-all active:scale-95 duration-200 hover:bg-gray-900 ">Add to Cart</button>
+                                        <button onClick={() => { AddToCartHandle(item) }} className="border-2 border-black/80  h-12 w-50 hover:cursor-pointer font-semibold bg-[#1f2736] text-white transition-all active:scale-95 duration-200 hover:bg-gray-900 ">Add to Cart</button>
                                         <button onClick={() => ByNowHandle(item)} className=" h-12 w-50 hover:cursor-pointer font-semibold bg-red-600 hover:bg-red-800 transition-all active:scale-95 duration-200 text-white">Buy Now</button>
 
 
@@ -407,89 +489,21 @@ const SingleProductPage = () => {
                                 </div>
 
 
+
+
+
                             </div >
 
 
 
                             {/*  short image for mobile*/}
-                            <div className="grid grid-cols-2 px-20  gap-y-10 mt-10 min-[426px]:hidden">
+                            {/* <div className="grid grid-cols-2 px-20  gap-y-10 mt-10 min-[426px]:hidden">
                                 <img onMouseEnter={() => setPreviewImage(item.image1)} className="h-40  w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image1}`}></img>
                                 <img onMouseEnter={() => setPreviewImage(item.image2)} className="h-40  w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image2}`}></img>
                                 <img onMouseEnter={() => setPreviewImage(item.image3)} className="h-40  w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image3}`}></img>
                                 <img onMouseEnter={() => setPreviewImage(item.image4)} className="h-40  w-auto hover:border-2 hover:cursor-pointer" src={`${fileURL}/${item?.image4}`}></img>
 
-                            </div>
-
-
-
-
-                            {/*info for tab & mobile  */}
-
-                            <div div className="mt-8 min-[426px]:hidden max-[426px]:pl-20" >
-
-
-                                <h1 className="text-3xl  leading-10 font-semibold max-[850px]:text-sm">{item?.title}</h1>
-                                <h3 className="text-gray-600 text-sm font-semibold max-[850px]:text-[12px]">{item?.remark}</h3>
-                                <p className="text-sm max-[850px]:text-[12px]">{item?.sub_title}</p>
-                                <strike className="text-2xl font-semibold text-red-700 max-[850px]:text-[14px]">{item?.regular_price}</strike>
-                                <h3 className="text-4xl font-bold max-[850px]:text-2xl">{item?.discount_price}</h3>
-
-
-
-
-                            </div>
-
-
-                            {/* Color */}
-                            <div className="mt-8 min-[426px]:hidden max-[426px]:pl-20 max-[850px]:mt-3">
-
-
-                                <h3 className="text-md font-bold max-[850px]:text-[12px]">Select Color</h3>
-                                <div className="flex gap-3 mt-3">
-
-
-
-                                    {
-                                        item?.color?.[0]?.split(",")?.map((clr, index) => (
-                                            <label key={index} className="cursor-pointer">
-                                                <input value={clr} onChange={() => setcolor(clr)} type="radio" name="color" className="hidden peer" />
-
-                                                <div className="w-9 h-9 max-[850px]:w-6 max-[850px]:h-6 rounded-full flex items-center justify-center peer-checked:ring-2 peer-checked:ring-black">
-                                                    <div className="w-8 h-8 max-[850px]:h-5 max-[850px]:w-5 rounded-full border-2 border-black/30 " style={{ backgroundColor: clr }}></div>
-                                                </div>
-                                            </label>
-                                        ))
-                                    }
-
-
-                                </div>
-
-
-
-
-                            </div>
-
-
-
-                            {/* Select Size */}
-                            <div className="mt-8 min-[426px]:hidden max-[426px]:pl-20 max-[850px]:mt-3">
-                                <h3 className="text-md font-bold max-[850px]:text-[12px]">Select Size</h3>
-                                <div className="flex gap-3 mt-3 max-[850px]:mt-2">
-
-
-
-                                    {
-                                        item?.size?.[0]?.split(",")?.map((siz, index) => (
-                                            <label key={index} className="cursor-pointer">
-                                                <input value={siz} onChange={() => setsize(siz)} name="size" type="radio" className="hidden peer" />
-                                                <div className=" w-15 h-8 max-[850px]:h-8 peer-checked:ring-2 border-black/10 border-2 flex justify-center items-center rounded-sm shadow-lg">
-                                                    <h3>{siz}</h3>
-
-                                                </div>
-
-                                            </label>
-                                        ))
-                                    }
+                            </div> */}
 
 
 
@@ -499,8 +513,7 @@ const SingleProductPage = () => {
 
 
 
-                                </div>
-                            </div>
+
 
 
 
@@ -609,7 +622,7 @@ const SingleProductPage = () => {
                             <div className="mt-15 border-b-2  border-black/30 ">
                                 <div className="flex gap-15">
                                     <button onClick={() => { setLongDes(true), setReview(false) }} className={` text-xl pb-3 cursor-pointer ${longDes ? "text-black font-bold border-b-3" : "text-gray-600"}`}>Description</button>
-                                    <button onClick={() => { setLongDes(false), setReview(true) }} className={` text-xl pb-3 cursor-pointer ${review ? "text-black font-bold border-b-2" : "text-gray-600"}`}>Reviews</button>
+
                                 </div>
 
 
@@ -624,126 +637,6 @@ const SingleProductPage = () => {
                                     <div className="px-3 py-3 text-left whitespace-pre-wrap">
                                         {item?.description}
                                     </div>
-                                )
-                            }{
-                                review && (
-                                    <div className="px-3 py-3  max-[376px]:w-90 text-left flex max-[426px]:flex-col gap-10">
-                                        <div className="mt-8 max-w-100 max-[376px]:w-80 max-[376px]:pl-10">
-                                            <h1 className="text-xl font-semibold">Customer Reviews</h1>
-
-                                            {/* Reviews */}
-                                            <div className="mt-8 bg-gray-100 rounded-sm px-5 py-5">
-                                                <div className="flex  gap-5">
-                                                    <h3 className="text-xl font-semibold">Alex John</h3>
-                                                    <img className="h-8 max-[850px]:h-5" src={rating5}></img>
-                                                </div>
-                                                <h5>customer1@gmail.com</h5>
-                                                <p className="font-semibold text-gray-700 px-3 py-3 rounded-sm">
-                                                    Excellent sound quality with deep bass and crystal-clear audio. Very comfortable for long listening sessions.
-
-                                                </p>
-                                            </div>
-
-                                            <div className="mt-8 bg-gray-100 rounded-sm px-5 py-5">
-                                                <div className="flex  gap-5">
-                                                    <h3 className="text-xl font-semibold">Alex John</h3>
-                                                    <img className="h-8 max-[850px]:h-5" src={rating5}></img>
-                                                </div>
-                                                <h5>customer1@gmail.com</h5>
-                                                <p className="font-semibold text-gray-700 px-3 py-3 rounded-sm">
-                                                    Excellent sound quality with deep bass and crystal-clear audio. Very comfortable for long listening sessions.
-
-                                                </p>
-                                            </div>
-
-                                            <div className="mt-8 bg-gray-100 rounded-sm px-5 py-5">
-                                                <div className="flex  gap-5">
-                                                    <h3 className="text-xl font-semibold">Alex John</h3>
-                                                    <img className="h-8 max-[850px]:h-5" src={rating5}></img>
-                                                </div>
-                                                <h5>customer1@gmail.com</h5>
-                                                <p className="font-semibold text-gray-700 px-3 py-3 rounded-sm">
-                                                    Excellent sound quality with deep bass and crystal-clear audio. Very comfortable for long listening sessions.
-
-                                                </p>
-                                            </div>
-
-
-
-
-                                        </div>
-
-
-
-                                        <form className=" py-10 px-8 max-[850px]:px-3 w-full border-l-2 border-black/30 bg-gray-50">
-
-                                            <h3 className="text-xl font-semibold border-b-2 w-full max-[850px]:w-90 h-10">Add a Review</h3>
-
-                                            <div className="mt-8">
-                                                <h4 className="text-lg text-gray-500">Your Rating</h4>
-                                                <div className="flex gap-5 my-2 max-[850px]:flex-col">
-                                                    <label className="cursor-pointer">
-                                                        <input name="rating" className="hidden peer" type="radio" />
-                                                        <img className="h-7 peer-checked:border-b-2 peer-checked:border-yellow-400 " src={rating1}></img>
-                                                    </label>
-
-
-
-                                                    <label className="cursor-pointer">
-                                                        <input name="rating" className="hidden peer" type="radio" />
-                                                        <img className="h-7  peer-checked:border-b-2 peer-checked:border-yellow-400 " src={rating2}></img>
-                                                    </label>
-
-
-
-                                                    <label className="cursor-pointer">
-                                                        <input name="rating" className="hidden peer" type="radio" />
-                                                        <img className="h-7 peer-checked:border-b-2 peer-checked:border-yellow-400 " src={rating3}></img>
-                                                    </label>
-
-
-
-                                                    <label className="cursor-pointer">
-                                                        <input name="rating" className="hidden peer" type="radio" />
-                                                        <img className="h-7 peer-checked:border-b-2 peer-checked:border-yellow-400 " src={rating4}></img>
-                                                    </label>
-
-
-                                                    <label className="cursor-pointer">
-                                                        <input name="rating" className="hidden peer" type="radio" />
-                                                        <img className="h-7 peer-checked:border-b-2 peer-checked:border-yellow-400 k" src={rating5}></img>
-                                                    </label>
-
-
-
-
-
-
-
-                                                </div>
-
-                                                <h4 className="text-lg text-gray-500 mt-3">Name</h4>
-                                                <input className=" border-2 max-[850px]:w-80 max-[426px]:w-90     border-black/30 w-130  focus:border-0 px-3 h-8 rounded-sm mt-3" type="text" />
-
-
-                                                <h4 className="text-lg text-gray-500 mt-3">Email</h4>
-                                                <input className=" border-2 max-[850px]:w-80 max-[426px]:w-90 border-black/30 w-130 focus:border-0 px-3 h-8 rounded-sm mt-3" type="text" />
-
-
-
-                                                <h4 className="text-lg text-gray-500 mt-3">Your Review</h4>
-                                                <textarea className=" border-2 max-[850px]:w-80 max-[426px]:w-90 border-black/30 w-130  focus:border-0 px-3 h-80 rounded-sm mt-3" type="text"></textarea>
-
-
-                                            </div>
-                                            <button className="bg-amber-400 py-3 px-3 mt-5 text-white rounded-sm  shadow hover:cursor-pointer">Give a Review</button>
-
-
-
-                                        </form>
-
-                                    </div>
-
                                 )
                             }
                         </div>

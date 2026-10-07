@@ -12,6 +12,9 @@ import createProduct from "../assets/product-design.png"
 const CreateProduct = () => {
 
 
+  const [groupPriceStage, setGroupPriceStage] = useState("single");
+
+
   const { getAllCategoryRequest, allCategory } = categoryStore();
   const { getBrandRequest, allBrand } = brandStore();
   const { productCreateLoading, productCreateRequest } = productStore();
@@ -27,10 +30,11 @@ const CreateProduct = () => {
   const [brand_id, setbrand_id] = useState("");
   const [short_description, setshort_description] = useState("");
   const [regular_price, setregular_price] = useState("");
+  // const [size, setsize] = useState([]);
   const [discount_price, setdiscount_price] = useState("");
-  const [size, setsize] = useState([]);
+  const [group_price, setgroup_price] = useState([]);
   const [color, setcolor] = useState([]);
-  const [is_discount, setis_discount] = useState("");
+  const [priceType, setpriceType] = useState("");
   const [remark, setremark] = useState("");
   const [stock, setstock] = useState("");
   const [description, setdescription] = useState("");
@@ -99,9 +103,10 @@ const CreateProduct = () => {
         short_description: short_description,
         regular_price: regular_price,
         discount_price: discount_price,
-        size: size,
+        group_price: group_price,
+        // size: size,
         color: color,
-        is_discount: is_discount,
+        priceType: priceType,
         remark: remark,
         stock: stock,
         description: description,
@@ -124,15 +129,15 @@ const CreateProduct = () => {
 
 
 
-  const handleSizeChange = (e) => {
-    const value = e.target.value;
+  // const handleSizeChange = (e) => {
+  //   const value = e.target.value;
 
-    if (e.target.checked) {
-      setsize([...size, value]);
-    } else {
-      setsize(size.filter((item) => item !== value));
-    }
-  };
+  //   if (e.target.checked) {
+  //     setsize([...size, value]);
+  //   } else {
+  //     setsize(size.filter((item) => item !== value));
+  //   }
+  // };
 
 
 
@@ -149,7 +154,39 @@ const CreateProduct = () => {
       }
     }; fetchData();
 
-  }, [])
+  }, []);
+
+
+
+  const addGroupPrice = () => {
+    setgroup_price([
+      ...group_price,
+      {
+        size: "",
+        price: ""
+      }
+    ]);
+  };
+
+
+
+
+  const handleGroupPriceChange = (index, field, value) => {
+    const updatedGroupPrice = [...group_price];
+
+    updatedGroupPrice[index][field] = value;
+
+    setgroup_price(updatedGroupPrice);
+  };
+
+
+
+
+  const removeGroupPrice = (index) => {
+    setgroup_price(
+      group_price.filter((_, i) => i !== index)
+    );
+  };
 
 
 
@@ -159,7 +196,7 @@ const CreateProduct = () => {
   return (
     <div className="bg-gray-200 w-auto min-h-screen px-5 flex flex-col items-center justify-center">
 
-      <div className="bg-white w-250 max-[849px]:w-150 max-[426px]:w-80 max-[426px]:mb-30 max-h-500 max-[849px]:max-h-800  rounded-2xl shadow shadow-black/30 my-20 py-10 px-10">
+      <div className="bg-white w-250 max-[849px]:w-150 max-[426px]:w-80 max-[426px]:mb-30 max-h-600 max-[849px]:max-h-800  rounded-2xl shadow shadow-black/30 my-20 py-10 px-10">
 
         <div className="flex items-center gap-8">
           <div className="px-2 py-2 rounded-xl  bg-black">
@@ -235,18 +272,9 @@ const CreateProduct = () => {
 
                 </div>
 
-                {/* Discount */}
-
-                <div className="flex flex-row gap-3">
-                  <h3 htmlFor="is_discount">Is Discount:</h3>
-                  <select id="is_discount" value={is_discount} onChange={(e) => setis_discount(e.target.value)} className=" border border-black cursor-pointer focus:outline-0 h-8 w-15 px-1 py-1 rounded-md bg-white ">
-                    <option value={"Yes"}>Yes</option>
-                    <option value={"No"}>No</option>
-                  </select>
 
 
 
-                </div>
               </div>
 
             </div>
@@ -315,28 +343,10 @@ const CreateProduct = () => {
               </div>
 
 
-              {/* Price */}
-              <div className="flex flex-col gap-5">
 
-                <div className="flex flex-row max-[426px]:flex-col gap-2">
-                  <label htmlFor="regular_price" className="w-25">Regular Price</label>
-                  <input id="regular_price" onChange={handleRegularPrice} value={regular_price} className="border-2 bg-white px-2 border-black shadow-inner shadow-black/30 focus:outline-0     py-1 rounded-md" type="text" />
-
-
-                </div>
-                {priceError && (
-                  <span className="text-red-500 text-sm">{priceError}</span>
-                )}
-
-                <div className="flex flex-row max-[426px]:flex-col gap-2">
-                  <label htmlFor="discount_price" className="w-25">Offer Price</label>
-                  <input id="discount_price" value={discount_price} onChange={handleDiscountPrice} className="border-2 bg-white border-black shadow-inner shadow-black/30 focus:outline-0 rounded-md  px-2  py-1 " type="text" />
-                </div>
-
-              </div>
 
               {/* Size */}
-              <h3>Select product Size:</h3>
+              {/* <h3>Select product Size:</h3>
               <div className="flex flex-col gap-2">
                 <h5 className="text-sm font-semibold">For Clothing item:</h5>
                 <div className="flex max-[426px]:grid max-[426px]:grid-cols-4 gap-3 relative">
@@ -399,7 +409,100 @@ const CreateProduct = () => {
 
 
                 </div>
+              </div> */}
+
+
+              {/* Price & Size */}
+
+
+              <div>
+
+                {/* single price */}
+                <div>
+                  <div className="flex border-b mt-5">
+                    <button onClick={() => { setGroupPriceStage("single"), setpriceType("single") }} className={`cursor-pointer hover:bg-gray-200/70 px-3 py-1 border-b-2   ${groupPriceStage === "single" ? "bg-gray-300 border-black" : "border-white"}`}> Single Price</button>
+                    <button onClick={() => { setGroupPriceStage("group"), setpriceType("group") }} className={`cursor-pointer hover:bg-gray-200/70 px-3 py-1 border-b-2   ${groupPriceStage === "group" ? "bg-gray-300 border-black" : "border-white"}`}>Group Price</button>
+
+                  </div>
+                  {/* single price */}
+                  {
+                    groupPriceStage === "single" && (
+                      <div className="flex flex-col gap-5 mt-5">
+
+                        <div className="flex flex-row max-[426px]:flex-col gap-2">
+                          <label htmlFor="regular_price" className="w-25">Regular Price</label>
+                          <input id="regular_price" onChange={handleRegularPrice} value={regular_price} className="border-2 bg-white px-2 border-black shadow-inner shadow-black/30 focus:outline-0     py-1 rounded-md" type="text" />
+
+
+                        </div>
+                        {priceError && (
+                          <span className="text-red-500 text-sm">{priceError}</span>
+                        )}
+
+                        <div className="flex flex-row max-[426px]:flex-col gap-2">
+                          <label htmlFor="discount_price" className="w-25">Offer Price</label>
+                          <input id="discount_price" value={discount_price} onChange={handleDiscountPrice} className="border-2 bg-white border-black shadow-inner shadow-black/30 focus:outline-0 rounded-md  px-2  py-1 " type="text" />
+                        </div>
+
+                      </div>
+                    )
+                  }
+
+
+
+                  {
+                    groupPriceStage === "group" && (
+                      <div className="mt-5 flex flex-col gap-5">
+
+                        {group_price.map((item, index) => (
+                          <div key={index} className="flex gap-5">
+
+                            <input
+                              className="border-2 border-black/70 rounded-sm px-3 py-1 w-30 max-[426px]:w-20"
+                              type="text"
+                              placeholder="Size"
+                              value={item.size}
+                              onChange={(e) =>
+                                handleGroupPriceChange(
+                                  index,
+                                  "size",
+                                  e.target.value
+                                )
+                              }
+                            />
+
+                            <input
+                              className="border-2 border-black/70 rounded-sm px-3 py-1 max-[426px]:w-25"
+                              type="text"
+                              placeholder="Price"
+                              value={item.price}
+                              onChange={(e) =>
+                                handleGroupPriceChange(
+                                  index,
+                                  "price",
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <button onClick={() => removeGroupPrice(index)} className="bg-red-700 px-3 rounded-sm text-white font-semibold cursor-pointer hover:bg-red-800">X</button>
+
+                          </div>
+                        ))}
+
+                        <button className="bg-black hover:cursor-pointer py-1 w-50 rounded-sm hover:bg-black/80 text-white px-5" type="button" onClick={addGroupPrice}>Add Size & Price</button>
+
+
+                      </div>
+                    )
+                  }
+
+
+
+                </div>
               </div>
+
+
+
 
 
 
@@ -485,9 +588,9 @@ const CreateProduct = () => {
 
         </form>
 
-      </div>
+      </div >
 
-    </div>
+    </div >
   )
 }
 

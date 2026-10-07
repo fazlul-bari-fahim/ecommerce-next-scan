@@ -47,9 +47,9 @@ const EditProductPage = () => {
     const [short_description, setshort_description] = useState("");
     const [regular_price, setregular_price] = useState("");
     const [discount_price, setdiscount_price] = useState("");
-    const [size, setsize] = useState([]);
+    const [group_price, setgroup_price] = useState([]);
     const [color, setcolor] = useState([]);
-    const [is_discount, setis_discount] = useState("");
+    const [priceType, setpriceType] = useState("");
     const [remark, setremark] = useState("");
     const [stock, setstock] = useState("");
     const [description, setdescription] = useState("");
@@ -59,6 +59,8 @@ const EditProductPage = () => {
     const [image3, setimage3] = useState("");
     const [image4, setimage4] = useState("");
     const [selectedColor, setSelectedColor] = useState("#000000");
+    const [groupPriceStage, setGroupPriceStage] = useState("");
+    const [priceError, setPriceError] = useState("");
 
 
 
@@ -91,9 +93,9 @@ const EditProductPage = () => {
                 short_description: short_description,
                 regular_price: regular_price,
                 discount_price: discount_price,
-                size: size,
+                group_price: group_price,
                 color: color,
-                is_discount: is_discount,
+                priceType: priceType,
                 remark: remark,
                 stock: stock,
                 description: description,
@@ -117,15 +119,16 @@ const EditProductPage = () => {
 
 
 
-    const handleSizeChange = (e) => {
-        const value = e.target.value;
 
-        if (e.target.checked) {
-            setsize([...size, value]);
-        } else {
-            setsize(size.filter((item) => item !== value));
-        }
-    };
+    // const handleSizeChange = (e) => {
+    //     const value = e.target.value;
+
+    //     if (e.target.checked) {
+    //         setsize([...size, value]);
+    //     } else {
+    //         setsize(size.filter((item) => item !== value));
+    //     }
+    // };
 
 
 
@@ -156,6 +159,7 @@ const EditProductPage = () => {
         const product = singleProduct[0];
 
 
+
         setTitle(product.title || "");
         setsub_title(product.sub_title || "");
         setservice_we_provide(product.service_we_provide || "");
@@ -165,22 +169,41 @@ const EditProductPage = () => {
         setshort_description(product.short_description || "");
         setregular_price(product.regular_price || "");
         setdiscount_price(product.discount_price || "");
-        setsize(
-            typeof product.size === "string"
-                ? product.size.split(",")
-                : Array.isArray(product.size)
-                    ? product.size.flatMap(item => item.split(","))
-                    : []
-        );
+        // setsize(
+        //     typeof product.size === "string"
+        //         ? product.size.split(",")
+        //         : Array.isArray(product.size)
+        //             ? product.size.flatMap(item => item.split(","))
+        //             : []
+        // );
+        setgroup_price(product.group_price || "");
+        console.log(product.color);
+
+        // setcolor(
+        //     typeof product.color === "string"
+        //         ? product.color.split(",")
+        //         : Array.isArray(product.color)
+        //             ? product.color.flatMap(item => item.split(","))
+        //             : []
+        // );
 
         setcolor(
             typeof product.color === "string"
-                ? product.color.split(",")
+                ? JSON.parse(product.color)
                 : Array.isArray(product.color)
-                    ? product.color.flatMap(item => item.split(","))
+                    ? product.color.flatMap((item) => {
+                        try {
+                            return typeof item === "string"
+                                ? JSON.parse(item)
+                                : item;
+                        } catch {
+                            return [item];
+                        }
+                    })
                     : []
         );
-        setis_discount(product.is_discount || "");
+        setpriceType(product.priceType || "");
+        setGroupPriceStage(product.priceType || "");
         setremark(product.remark || "");
         setstock(product.stock || "");
         setdescription(product.description || "");
@@ -189,6 +212,67 @@ const EditProductPage = () => {
 
 
 
+
+    const handleRegularPrice = (e) => {
+        const value = e.target.value;
+
+        // Allow only digits
+        if (/^\d*$/.test(value)) {
+            setregular_price(value);
+            setPriceError("");
+        } else {
+            setPriceError("Only numbers are allowed.");
+        }
+    };
+
+
+
+
+    const handleDiscountPrice = (e) => {
+        const value = e.target.value;
+
+        // Allow only digits
+        if (/^\d*$/.test(value)) {
+            setdiscount_price(value);
+            setPriceError("");
+        } else {
+            setPriceError("Only numbers are allowed.");
+        }
+    };
+
+
+
+
+
+    const addGroupPrice = () => {
+        setgroup_price([
+            ...group_price,
+            {
+                size: "",
+                price: ""
+            }
+        ]);
+    };
+
+
+
+
+    const handleGroupPriceChange = (index, field, value) => {
+        const updatedGroupPrice = [...group_price];
+
+        updatedGroupPrice[index][field] = value;
+
+        setgroup_price(updatedGroupPrice);
+    };
+
+
+
+
+    const removeGroupPrice = (index) => {
+        setgroup_price(
+            group_price.filter((_, i) => i !== index)
+        );
+    };
 
 
 
@@ -272,18 +356,7 @@ const EditProductPage = () => {
 
                                 </div>
 
-                                {/* Discount */}
 
-                                <div className="flex flex-row gap-3">
-                                    <h3 htmlFor="is_discount">Is Discount:</h3>
-                                    <select id="is_discount" value={is_discount} onChange={(e) => setis_discount(e.target.value)} className=" border border-black cursor-pointer focus:outline-0 h-8 w-15 px-1 py-1 rounded-md bg-white ">
-                                        <option value={"Yes"}>Yes</option>
-                                        <option value={"No"}>No</option>
-                                    </select>
-
-
-
-                                </div>
                             </div>
 
                         </div>
@@ -350,103 +423,90 @@ const EditProductPage = () => {
 
 
                             {/* Price */}
-                            <div className="flex flex-col gap-5">
+                            {/* single price */}
+                            <div>
+                                <div className="flex border-b mt-5">
+                                    <button type="button" onClick={() => { setGroupPriceStage("single"), setpriceType("single") }} className={`cursor-pointer hover:bg-gray-200/70 px-3 py-1 border-b-2   ${groupPriceStage === "single" ? "bg-gray-300 border-black" : "border-white"}`}> Single Price</button>
+                                    <button type="button" onClick={() => { setGroupPriceStage("group"), setpriceType("group") }} className={`cursor-pointer hover:bg-gray-200/70 px-3 py-1 border-b-2   ${groupPriceStage === "group" ? "bg-gray-300 border-black" : "border-white"}`}>Group Price</button>
 
-                                <div className="flex max-[449px]:flex-col gap-2">
-                                    <label htmlFor="regular_price" className="w-25">Regular Price</label>
-                                    <input id="regular_price" value={regular_price} onChange={(e) => setregular_price(e.target.value)} className="border-2 bg-white px-2 border-black shadow-inner shadow-black/30 focus:outline-0     py-1 rounded-md" type="text" />
                                 </div>
+                                {/* single price */}
+                                {
+                                    groupPriceStage === "single" && (
+                                        <div className="flex flex-col gap-5 mt-5">
 
-                                <div className="flex max-[449px]:flex-col gap-2">
-                                    <label htmlFor="discount_price" className="w-25">Offer Price</label>
-                                    <input id="discount_price" value={discount_price} onChange={(e) => setdiscount_price(e.target.value)} className="border-2 bg-white border-black shadow-inner shadow-black/30 focus:outline-0 rounded-md  px-2  py-1 " type="text" />
-                                </div>
-
-                            </div>
-
-                            {/* Size */}
-                            <h3>Select product Size:</h3>
-                            <div className="flex max-[449px]:grid max-[449px]:grid-cols-4 gap-3 relative">
+                                            <div className="flex flex-row max-[426px]:flex-col gap-2">
+                                                <label htmlFor="regular_price" className="w-25">Regular Price</label>
+                                                <input id="regular_price" onChange={handleRegularPrice} value={regular_price} className="border-2 bg-white px-2 border-black shadow-inner shadow-black/30 focus:outline-0     py-1 rounded-md" type="text" />
 
 
-                                <div>
-                                    <label htmlFor="size" className="absolute top-2 left-3">S</label>
-                                    <input type="checkbox" id="size" value="S" checked={size.includes("S")} onChange={handleSizeChange} className="h-10 w-10 hover:cursor-pointer accent-black border-2 " />
-                                </div>
+                                            </div>
+                                            {priceError && (
+                                                <span className="text-red-500 text-sm">{priceError}</span>
+                                            )}
 
+                                            <div className="flex flex-row max-[426px]:flex-col gap-2">
+                                                <label htmlFor="discount_price" className="w-25">Offer Price</label>
+                                                <input id="discount_price" value={discount_price} onChange={handleDiscountPrice} className="border-2 bg-white border-black shadow-inner shadow-black/30 focus:outline-0 rounded-md  px-2  py-1 " type="text" />
+                                            </div>
 
-
-
-                                <div>
-                                    <label htmlFor="size" className="absolute top-2 left-16 max-[449px]:left-19">M</label>
-                                    <input type="checkbox" id="size" value="M" checked={size.includes("M")} onChange={handleSizeChange} className="h-10 w-10 hover:cursor-pointer accent-black border-2 " />
-                                </div>
-
-
-                                <div>
-                                    <label htmlFor="size" className="absolute top-2 left-30 max-[449px]:left-35">L</label>
-                                    <input type="checkbox" id="size" value="L" checked={size.includes("L")} onChange={handleSizeChange} className="h-10 w-10 hover:cursor-pointer accent-black border-2 " />
-                                </div>
+                                        </div>
+                                    )
+                                }
 
 
 
+                                {
+                                    groupPriceStage === "group" && (
+                                        <div className="mt-5 flex flex-col gap-5">
 
-                                <div>
-                                    <label htmlFor="size" className="absolute top-2 left-42 max-[449px]:left-51">Xl</label>
-                                    <input type="checkbox" id="size" value="Xl" checked={size.includes("Xl")} onChange={handleSizeChange} className="h-10 w-10 hover:cursor-pointer accent-black border-2 " />
-                                </div>
+                                            {group_price.map((item, index) => (
+                                                <div key={index} className="flex gap-5">
 
+                                                    <input
+                                                        className="border-2 border-black/70 rounded-sm px-3 py-1 w-30 max-[426px]:w-20"
+                                                        type="text"
+                                                        placeholder="Size"
+                                                        value={item.size}
+                                                        onChange={(e) =>
+                                                            handleGroupPriceChange(
+                                                                index,
+                                                                "size",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    />
 
+                                                    <input
+                                                        className="border-2 border-black/70 rounded-sm px-3 py-1 max-[426px]:w-25"
+                                                        type="text"
+                                                        placeholder="Price"
+                                                        value={item.price}
+                                                        onChange={(e) =>
+                                                            handleGroupPriceChange(
+                                                                index,
+                                                                "price",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    />
+                                                    <button onClick={() => removeGroupPrice(index)} className="bg-red-700 px-3 rounded-sm text-white font-semibold cursor-pointer hover:bg-red-800">X</button>
 
+                                                </div>
+                                            ))}
 
-
-                                <div>
-                                    <label htmlFor="size" className="absolute top-2 left-54 max-[449px]:top-16 max-[449px]:left-3">2Xl</label>
-                                    <input type="checkbox" id="size" value="2Xl" checked={size.includes("2Xl")} onChange={handleSizeChange} className="h-10 w-10 hover:cursor-pointer accent-black border-2 " />
-                                </div>
-
-
-                                <div>
-                                    <label htmlFor="size" className="absolute top-2 left-67 max-[449px]:top-16 max-[449px]:left-18">3Xl</label>
-                                    <input type="checkbox" id="size" value="3Xl" checked={size.includes("3Xl")} onChange={handleSizeChange} className="h-10 w-10 hover:cursor-pointer accent-black border-2 " />
-                                </div>
-
-
-                                <div>
-                                    <label htmlFor="size" className="absolute top-2 left-80 max-[449px]:top-16 max-[449px]:left-34">4Xl</label>
-                                    <input type="checkbox" id="size" value="4Xl" checked={size.includes("4Xl")} onChange={handleSizeChange} className="h-10 w-10 hover:cursor-pointer accent-black border-2 " />
-                                </div>
-
-
-                                <div>
-                                    <label htmlFor="size" className="absolute top-2 left-93 max-[449px]:top-16 max-[449px]:left-50">Uni</label>
-                                    <input type="checkbox" id="size" value="Uni" checked={size.includes("Uni")} onChange={handleSizeChange} className="h-10 w-10 hover:cursor-pointer accent-black border-2 " />
-                                </div>
-
-
-
-
-
-
-
-
-
-
+                                            <button className="bg-black hover:cursor-pointer py-1 w-50 rounded-sm hover:bg-black/80 text-white px-5" type="button" onClick={addGroupPrice}>Add Size & Price</button>
 
 
-
-
-
-
-
-
-
-
-
+                                        </div>
+                                    )
+                                }
 
 
 
                             </div>
+
+
 
 
 

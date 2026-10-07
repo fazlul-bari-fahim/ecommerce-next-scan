@@ -2,22 +2,23 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 const AdminModelSchema = new mongoose.Schema({
-    email:{
-        type:String,
-        unique:true,
-        required:true,
-        lowercase:true,
-        trim:true
+    email: {
+        type: String,
+        unique: true,
+        required: true,
+        lowercase: true,
+        trim: true
 
     },
-    password:{
-        type:String,
-        required:true,
+    password: {
+        type: String,
+        required: true,
+        trim: true,
 
     }
-},{
-    timestamps:true,
-    versionKey:false,
+}, {
+    timestamps: true,
+    versionKey: false,
 }
 );
 
@@ -25,13 +26,13 @@ const AdminModelSchema = new mongoose.Schema({
 
 // Password Hashing
 AdminModelSchema.pre("save", async function () {
-  if (!this.isModified("password")) return; // password changed হলে হ্যাশ হবে
-  this.password = await bcrypt.hash(this.password, 10);
+    if (!this.isModified("password")) return; // password changed হলে হ্যাশ হবে
+    this.password = await bcrypt.hash(this.password, 10);
 });
 
 
 
 
 
-const Admin = mongoose.model("Admin",AdminModelSchema);
+const Admin = mongoose.model("Admin", AdminModelSchema);
 export default Admin;

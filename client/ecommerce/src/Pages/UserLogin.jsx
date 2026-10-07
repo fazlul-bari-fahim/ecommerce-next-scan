@@ -40,8 +40,9 @@ const UserLogin = () => {
                         <button type="submit" className="bg-black text-white py-1 hover:bg-black/80 cursor-pointer">{userLoginLoading ? "Logining..." : "Login"}</button>
 
                     </form>
-                    <div>
+                    <div className="flex flex-col justify-center items-center">
                         <h1>New to the Platfrom ? <Link to="/dashboard-profile/register" className="text-blue-700 border-b">Register</Link></h1>
+                        <button onClick={() => navigate("/")} className="font-semibold underline cursor-pointer">Back to site</button>
                     </div>
 
                 </div>

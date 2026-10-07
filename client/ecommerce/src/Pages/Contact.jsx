@@ -1,107 +1,207 @@
-import { NavLink, useNavigate } from "react-router-dom"
-import larrow from "../assets/right-arrow.png"
-import store from "../assets/car.png"
-import help from "../assets/help-web-button.png"
+import { useState } from "react"
+import mail from "../assets/envelope.png"
+import location from "../assets/location-pin.png"
+import time from "../assets/time.png"
+import call from "../assets/call.png"
+import contactStore from "../Store/ContactStore"
+import { useNavigate } from "react-router-dom"
+
 
 
 const Contact = () => {
 
 
+  const [first_name, setFirst_name] = useState("");
+  const [last_name, setLast_name] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setsubject] = useState("");
+  const [message, setMessage] = useState("");
+
+  const { createContactLoading, createContactRequest } = contactStore();
+
   const navigate = useNavigate();
+
+
+
+  const handelSubmit = async (e) => {
+    e.preventDefault();
+    const result = await createContactRequest({
+      data: {
+
+        first_name: first_name,
+        last_name: last_name,
+        phone: phone,
+        email: email,
+        subject: subject,
+        message: message,
+      }
+    })
+
+    if (result === true) {
+      navigate("/success-message")
+    }
+
+  };
+
+
+
 
 
 
 
   return (
-    <div className="flex flex-col">
+    <div className="w-full flex justify-center items-center">
+      <div className=" py-10 px-20 flex gap-30 max-[1200px]:flex-col max-[1300px]:items-center">
 
-      {/* Page url section */}
+        {/* Left side */}
 
-      <div className="bg-[#ececec] px-8 max-[321px]:px-5 py-3 flex flex-row gap-2 justify-between items-center my-3">
-        <div className="flex flex-row gap-3">
-          <NavLink className="font-semibold flex flex-row gap-3 items-center max-[321px]:text-[12px]  " to="/">Home <img className="h-3 w-3 " src={larrow}></img> </NavLink>
-          <h5 className="text-gray-500 max-[321px]:text-[12px]">Contact</h5>
+        <div className=" shadow-2xl w-120 max-[426px]:w-100 max-[376px]:w-90 max-[321px]:w-80 h-120 rounded-2xl ">
+          <div className="bg-gray-800 text-white py-4 rounded-t-xl">
+            <h2 className=" text-2xl text-center">Get in Touch with us now !</h2>
+          </div>
 
+          <div className="grid grid-cols-2 gap-4 p-4 max-[321px]:p-2 max-[321px]:text-sm mt-3">
+            {/* card-1 */}
+
+            <div className="shadow w-50 max-[426px]:w-40 h-30 rounded-2xl flex flex-col justify-center items-center">
+              <img className="h-8" src={call}></img>
+
+              <h2 className="text-xl max-[321px]:text-sm font-semibold">
+                Phone Number
+              </h2>
+
+              <p className="text-gray-600 mt-2 max-[321px]:text-sm">
+                +8801955-443 969
+              </p>
+            </div>
+
+
+            {/* card-2 */}
+
+
+            <div className="shadow w-50 max-[426px]:w-40 h-30 rounded-2xl flex flex-col justify-center items-center">
+
+              <img className="h-8" src={mail}></img>
+              <h2 className="text-xl max-[321px]:text-sm font-semibold">
+                Gmail
+              </h2>
+
+              <p className="text-gray-600 mt-2 max-[321px]:text-sm">
+                nlmcrockerys@gmail.com
+              </p>
+            </div>
+
+            {/* card-3 */}
+
+
+            <div className="shadow w-50 max-[426px]:w-40 h-30 rounded-2xl flex flex-col justify-center items-center">
+              <img className="h-8" src={location}></img>
+
+              <h2 className="text-xl font-semibold max-[321px]:text-sm">
+                Location
+              </h2>
+
+              <p className="text-gray-600 mt-2 max-[321px]:text-sm px-3 text-center">
+                Molibazar trade center,Mitford, Dhaka.
+              </p>
+            </div>
+
+
+
+            {/* card-4 */}
+
+            <div className="shadow w-50 max-[426px]:w-40 h-30 rounded-2xl flex flex-col justify-center items-center">
+
+              <img className="h-8" src={time}></img>
+              <h2 className="text-xl font-semibold max-[321px]:text-sm">
+                Warking Hours
+              </h2>
+
+              <p className="text-gray-600 mt-2 max-[321px]:text-sm">
+                9:00AM-6:00 PM
+              </p>
+            </div>
+
+          </div>
         </div>
 
 
 
-        <div>
-          <button onClick={() => navigate(-1)} className="text-gray-700 hover:text-black hover:cursor-pointer flex flex-row items-center gap-2 max-[376px]:text-sm max-[321px]:text-[12px]"><img className="h-3 w-3 rotate-180" src={larrow}></img> Return to Previous Page</button>
+        {/* contact form */}
+        <form onSubmit={handelSubmit} className=" shadow-2xl rounded-lg w-140 max-[426px]:w-100 max-[376px]:w-90 max-[321px]:w-80 max-[425px]:w-100  ">
 
-        </div>
-
-      </div>
-
-      <div className="flex flex-row mx-5 my-10 gap-10">
-
-        {/* map */}
-        <div className="w-150 h-110 border-2 max-[426px]:hidden">
-          <iframe
-
-            title="Google Map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3404.956025477763!2d90.38296581058205!3d23.73870057858942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8c78b718c03%3A0x85f0047e17dda266!2sMultiplan%20Computer%20City%20Center%2C%20341%20New%20Elephant%20Rd%2C%20Dhaka%201205!5e1!3m2!1sen!2sbd!4v1780558434604!5m2!1sen!2sbd"
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
-
-
-        {/* Message */}
-        <div className="flex flex-col gap-5 w-150">
-          <h3 className="text-3xl font-semibold">Send Message</h3>
-          <input placeholder="Enter your Name" className="border-2 px-3 py-1 border-black/40 h-10 " type="text" />
-          <input placeholder="Enter your Phone Number" className="border-2 px-3 py-1 border-black/40 h-10" type="text" />
-          <input placeholder="Enter your email" className="border-2 px-3 py-1 border-black/40 h-10" type="text" />
-
-          <textarea placeholder="Type your message" className="border-2 px-3 py-2 border-black/40 h-80" type="text" />
-          <button className="bg-black py-2  w-30 text-white font-semibold hover:cursor-pointer">Submit</button>
-        </div>
-
-
-
-
-      </div>
-
-
-
-      <div className="my-10 px-5">
-        {/* info */}
-        <div className="grid grid-cols-3 max-[675px]:grid-cols-1 items-center justify-between gap-8">
-
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-row gap-5"><img className="h-10" src={store}></img><h1 className="text-2xl font-semibold">Our Showroom</h1></div>
-            <h3 className="text-lg max-[1025px]:text-sm">215 Multiplan, Elephent Road, Dhaka</h3>
-            <h3 className="text-lg">+8801453-526 120</h3>
+          {/* Heading */}
+          <div className="bg-gray-800 text-white py-4 rounded-t-xl">
+            <h2 className=" text-3xl text-center">Contac Us</h2>
           </div>
 
 
-
-          <div className="flex flex-col gap-3  w-80">
-            <div className="flex flex-row gap-5"><img className="h-10" src={help}></img><h1 className="text-2xl font-semibold">Quick Help</h1></div>
-            <h3 className="text-lg max-[1025px]:text-sm w-70">You can ask anything you want to know about our products</h3>
-            <div className="flex flex-row gap-3">
-              <h3 className="font-semibold">Email:</h3> <h3 className="text-lg">contact@gocart.com</h3>
+          <div className="p-5">
+            {/* Name */}
+            <div className="grid  grid-cols-2 gap-4">
+              <input
+                type="text"
+                placeholder="First Name"
+                onChange={(e) => setFirst_name(e.target.value)}
+                value={first_name}
+                className="border border-gray-300 rounded-lg px-4 py-3 "
+              />
+              <input
+                type="text"
+                onChange={(e) => setLast_name(e.target.value)}
+                value={last_name}
+                placeholder="Last Name"
+                className="border border-gray-300 rounded-lg px-4 py-3"
+              />
             </div>
           </div>
 
+          {/* Contact */}
 
 
-          <div className="flex flex-col gap-3 w-80max-[769px]:w-60">
-            <div className="flex flex-row gap-5"><img className="h-10" src={help}></img><h1 className="text-2xl font-semibold">Call Us</h1></div>
-            <h3 className="text-lg max-[1025px]:text-sm">Call Our tem Sat-Thus  from 8am to 10pm</h3>
-            <div className="flex flex-row gap-3">
-              <h3 className="font-semibold">Phone:</h3> <h3 className="text-lg">+880135-458-3489</h3>
-            </div>
+          <div className="grid grid-cols-2 p-5 gap-4 w-full ">
+            <input
+              type="text"
+              placeholder="Phone Number"
+              onChange={(e) => setPhone(e.target.value)}
+              value={phone}
+              className="border border-gray-300 rounded-lg px-4 py-3 "
+            />
+            <input type="Email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              placeholder="Email Address"
+              className="w-full  border border-gray-300 rounded-lg px-4 py-3"
+            />
           </div>
 
-        </div>
-      </div>
 
+          <div className="p-5 w-full ">
+            <input
+              type="text"
+              onChange={(e) => setsubject(e.target.value)}
+              value={subject}
+              placeholder="Subject"
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 "
+            />
+          </div>
+
+          <div className="p-5">
+            <input type="text"
+              onChange={(e) => setMessage(e.target.value)}
+              value={message}
+              placeholder="Write your message..."
+              className="w-full h-20 border border-gray-300 rounded-lg px-3" />
+            <button type="submit" className="bg-[#1f2736] mt-4 font-bold text-white px-4 py-2 rounded-2xl hover:text-blue-300 cursor-pointer">{createContactLoading ? "Sending... Message" : "Send Message"}</button>
+          </div>
+
+        </form>
+
+
+
+
+      </div>
     </div>
   )
 }

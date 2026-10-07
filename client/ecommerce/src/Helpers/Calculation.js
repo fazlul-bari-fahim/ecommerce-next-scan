@@ -1,7 +1,8 @@
 
 
 
-const cartCalculation = (allCart) => {
+const cartCalculation = (allCart, city) => {
+
 
     let subtotal = 0;
     let discount = 0;
@@ -17,14 +18,15 @@ const cartCalculation = (allCart) => {
         subtotal += regularPrice * item?.qty;
         discount += (regularPrice - salePrice) * item?.qty;
         afterDiscount = subtotal - discount;
-        vat = (afterDiscount * 15) / 100;
+        vat = 0;
 
 
 
     });
 
 
-    const shipping = 130;
+    // Dhaka হলে 80, অন্য city হলে 120
+    const shipping = city === "Dhaka" ? 80 : 120;
 
     const total = afterDiscount + vat + shipping;
 

@@ -7,12 +7,12 @@ import { Toaster } from 'react-hot-toast'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-   <BrowserRouter basename='/super-admin'>
-   <Toaster position="bottom-right"/>
+    <BrowserRouter>
+      <Toaster position="bottom-right" />
 
-      <AppRoute/>
+      <AppRoute />
 
-   
-   </BrowserRouter>
+
+    </BrowserRouter>
   </StrictMode>,
 )

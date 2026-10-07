@@ -36,7 +36,7 @@ const PopularBrands = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mt-10 mb-20 gap-5">
-      <h1 className="text-xl my-10 bg-red-600 px-4 py-1 text-white">Popular Brands</h1>
+      <h1 className="text-xl my-10 bg-[#1f2736] px-4 py-1 text-white">Popular Brands</h1>
 
 
       <div className="grid grid-cols-6 max-[1025px]:grid-cols-5 max-[769px]:grid-cols-4 max-[620px]:grid-cols-3 max-[426px]:grid-cols-2 gap-10 mx-5">

@@ -2,6 +2,11 @@ import hero1 from "../../assets/hero2.png"
 import hero4 from "../../assets/hero4.png"
 import hero5 from "../../assets/hero5.png"
 import store from "../../assets/store.png"
+import hero from "../../assets/hero1.jpeg"
+import hero8 from "../../assets/hero8.jpeg"
+import hero10 from "../../assets/hero10.png"
+import hero11 from "../../assets/hero11.png"
+import hero12 from "../../assets/hero12.png"
 import delivery from "../../assets/fast-delivery (1).png"
 import insurance from "../../assets/insurance.png"
 import payment from "../../assets/credit-card.png"
@@ -128,29 +133,46 @@ const Hero = () => {
 
 
   return (
-    <div className="px-10 my-10 max-[1285px]:px-2 flex flex-col justify-center items-center">
+    <div className="px-10  max-[1285px]:px-2 flex flex-col gap-5 justify-center items-center">
 
-      {/* 1st section */}
+
+      {/* 1st Section */}
+      <div>
+        <img className="h-130 max-[426px]:hidden" src={hero}></img>
+        <img className="h-80 min-[426px]:hidden" src={hero8}></img>
+
+      </div>
+      {/* 2nd section */}
       <div className="flex flex-row max-[1219px]:flex-col  justify-between max-[1219px]:justify-center items-center gap-8 max-[1285px]:gap-2 ">
 
         <div>
           {
             herosec === "hero1" && (
-              <div className="h-110 w-200 max-[700px]:w-150 max-[770px]:w-180 max-[426px]:w-105 max-[380px]:w-90 max-[321px]:w-80 border border-black/30 px-10 py-20 flex flex-col gap-5" style={{ backgroundImage: `url(${hero1})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-                <div className="flex gap-3">
-                  <div className="bg-red-600 w-1 h-50">
+              <div>
+                {/* for long device */}
+                <div className="h-110 w-200 max-[700px]:w-150 max-[770px]:w-180 max-[426px]:w-105 max-[380px]:w-90 max-[321px]:w-80 border border-black/30 px-10 py-20 flex flex-col justify-between gap-5 max-[426px]:hidden" style={{ backgroundImage: `url(${hero1})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+                  <div className="flex gap-3">
 
                   </div>
-                  <div className="flex flex-col gap-3">
-                    <h1 className="text-3xl font-semibold w-80 max-[380px]:w-70 max-[426px]:text-[20px]">SoundBox Pro Wireless Bluetooth Speaker</h1>
-                    <h1 className="text-lg font-semibold text-black/40 max-[426px]:text-[12px]">Experience powerful sound with deep bass</h1>
-                    <button className="bg-red-600 w-30 h-10 text-white font-semibold">Shop Now</button>
+                  <div className="flex gap-5 justify-center mt-13">
+                    <button onClick={() => setHerosec("hero1")} className="h-5 w-5 bg-red-600 rounded-full cursor-pointer"></button>
+                    <button onClick={() => setHerosec("hero2")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
+                    <button onClick={() => setHerosec("hero3")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
                   </div>
                 </div>
-                <div className="flex gap-5 justify-center mt-13">
-                  <button onClick={() => setHerosec("hero1")} className="h-5 w-5 bg-red-600 rounded-full cursor-pointer"></button>
-                  <button onClick={() => setHerosec("hero2")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
-                  <button onClick={() => setHerosec("hero3")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
+
+
+
+                {/* for mobile */}
+                <div className="h-full w-79.5  border border-black/30 px-10 py-20 flex flex-col justify-between gap-5 min-[426px]:hidden" style={{ backgroundImage: `url(${hero10})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+                  <div className="flex gap-3">
+
+                  </div>
+                  <div className="flex gap-5 justify-center mt-13">
+                    <button onClick={() => setHerosec("hero1")} className="h-5 w-5 bg-red-600 rounded-full cursor-pointer"></button>
+                    <button onClick={() => setHerosec("hero2")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
+                    <button onClick={() => setHerosec("hero3")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
+                  </div>
                 </div>
               </div>
             )
@@ -158,44 +180,66 @@ const Hero = () => {
 
           {
             herosec === "hero2" && (
-              <div className=" h-110 w-200 max-[770px]:w-180 max-[426px]:w-105 max-[380px]:w-90  border max-[321px]:w-80 border-black/30 px-10 py-20 flex flex-col gap-5" style={{ backgroundImage: `url(${hero4})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-                <div className="flex gap-3">
-                  <div className="bg-red-600 w-1 h-50">
+              <div>
+
+                <div className=" h-110 w-200 max-[770px]:w-180 max-[426px]:w-105 max-[380px]:w-90  border max-[321px]:w-80 border-black/30 px-10 py-20 flex flex-col justify-between gap-5 max-[426px]:hidden" style={{ backgroundImage: `url(${hero4})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+                  <div className="flex gap-3">
 
                   </div>
-                  <div className="flex flex-col gap-3">
-                    <h1 className="text-3xl font-semibold w-80 max-[380px]:w-70 max-[426px]:text-[20px]">Latest Gadgets Collection</h1>
-                    <h1 className="text-lg font-semibold text-black/40 max-[426px]:text-[12px]">Discover innovative technology</h1>
-                    <button className="bg-red-600 w-30 h-10 text-white font-semibold">Shop Now</button>
+                  <div className="flex gap-5 justify-center mt-13">
+                    <button onClick={() => setHerosec("hero1")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
+                    <button onClick={() => setHerosec("hero2")} className="h-5 w-5 bg-red-600 rounded-full cursor-pointer"></button>
+                    <button onClick={() => setHerosec("hero3")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
                   </div>
                 </div>
-                <div className="flex gap-5 justify-center mt-13">
-                  <button onClick={() => setHerosec("hero1")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
-                  <button onClick={() => setHerosec("hero2")} className="h-5 w-5 bg-red-600 rounded-full cursor-pointer"></button>
-                  <button onClick={() => setHerosec("hero3")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
+
+
+                <div className="h-full w-79.5  border border-black/30 px-10 py-20 flex flex-col justify-between gap-5 min-[426px]:hidden" style={{ backgroundImage: `url(${hero11})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+                  <div className="flex gap-3">
+
+                  </div>
+                  <div className="flex gap-5 justify-center mt-13">
+                    <button onClick={() => setHerosec("hero1")} className="h-5 w-5 bg-red-600 rounded-full cursor-pointer"></button>
+                    <button onClick={() => setHerosec("hero2")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
+                    <button onClick={() => setHerosec("hero3")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
+                  </div>
                 </div>
+
+
+
               </div>
             )
           }
 
           {
             herosec === "hero3" && (
-              <div className=" h-110 w-200 max-[770px]:w-180 max-[426px]:w-105 max-[380px]:w-90  max-[321px]:w-80 border border-black/30 px-10 py-20 flex flex-col gap-5" style={{ backgroundImage: `url(${hero5})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-                <div className="flex gap-3">
-                  <div className="bg-red-600 w-1 h-50">
+              <div>
+
+                <div className=" h-110 w-200 max-[770px]:w-180 max-[426px]:w-105 max-[380px]:w-90  max-[321px]:w-80 border border-black/30 px-10 py-20 flex flex-col justify-between gap-5 max-[426px]:hidden" style={{ backgroundImage: `url(${hero5})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+                  <div className="flex gap-3">
 
                   </div>
-                  <div className="flex flex-col gap-3">
-                    <h1 className="text-3xl font-semibold w-80 max-[380px]:w-70 max-[426px]:text-[20px]">Never Run Out of Power</h1>
-                    <h1 className="text-lg font-semibold text-black/40 max-[426px]:text-[12px]">Compact design, massive capacity</h1>
-                    <button className="bg-red-600 w-30 h-10 text-white font-semibold">Shop Now</button>
+                  <div className="flex gap-5 justify-center mt-13">
+                    <button onClick={() => setHerosec("hero1")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
+                    <button onClick={() => setHerosec("hero2")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
+                    <button onClick={() => setHerosec("hero3")} className="h-5 w-5 bg-red-600 rounded-full cursor-pointer"></button>
                   </div>
                 </div>
-                <div className="flex gap-5 justify-center mt-13">
-                  <button onClick={() => setHerosec("hero1")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
-                  <button onClick={() => setHerosec("hero2")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
-                  <button onClick={() => setHerosec("hero3")} className="h-5 w-5 bg-red-600 rounded-full cursor-pointer"></button>
+
+
+                <div className="h-full w-79.5  border border-black/30 px-10 py-20 flex flex-col justify-between gap-5 min-[426px]:hidden" style={{ backgroundImage: `url(${hero12})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+                  <div className="flex gap-3">
+
+                  </div>
+                  <div className="flex gap-5 justify-center mt-13">
+                    <button onClick={() => setHerosec("hero1")} className="h-5 w-5 bg-red-600 rounded-full cursor-pointer"></button>
+                    <button onClick={() => setHerosec("hero2")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
+                    <button onClick={() => setHerosec("hero3")} className="h-5 w-5 bg-gray-50 rounded-full cursor-pointer"></button>
+                  </div>
                 </div>
+
+
+
               </div>
             )
           }
@@ -210,7 +254,7 @@ const Hero = () => {
                 <img className=" h-50 w-auto" src={`${fileURL}/${getHotDealProduct[currentHotDeal]?.[0]?.big_image}`}></img>
                 {/* Time */}
 
-                <div className="flex justify-center gap-5 max-[535px]:gap-3 w-full  py-3 mt-3 bg-red-600 border-2 border-black">
+                <div className="flex justify-center gap-5 max-[535px]:gap-3 w-full  py-3 mt-3 bg-[#1f2736] border-2 border-black">
                   <div className="flex flex-col items-center">
                     <h3 className="font-semibold text-white max-[535px]:text-[8px]">{String(timeLeft.days).padStart(2, "0")}</h3>
                     <h3 className="text-gray-300 max-[535px]:text-[8px]">DAYS</h3>
@@ -249,7 +293,7 @@ const Hero = () => {
                   <img className=" h-50 w-auto" src={`${fileURL}/${getHotDealProduct[reverseIndex]?.[0]?.big_image}`}></img>
                   {/* Time */}
 
-                  <div className="flex justify-center gap-5 max-[535px]:gap-2 w-full  py-3 mt-3 bg-red-600 border-2 border-black">
+                  <div className="flex justify-center gap-5 max-[535px]:gap-2 w-full  py-3 mt-3 bg-[#1f2736]  border-2 border-black">
                     <div className="flex flex-col items-center">
                       <h3 className="font-semibold text-white max-[535px]:text-[8px]">{String(timeLeft.days).padStart(2, "0")}</h3>
                       <h3 className="text-gray-300 max-[535px]:text-[8px]">DAYS</h3>
@@ -284,12 +328,12 @@ const Hero = () => {
       </div>
 
 
-      {/* 2nd section */}
+      {/* 3rd section */}
 
       <div className="h-auto w-full bg-[#ececec] py-10 my-10 px-5 grid grid-cols-4 max-[769px]:grid-cols-2 max-[426px]:grid-cols-1 items-center gap-5">
 
-        <div className="h-35 w-auto px-5 border border-red-500/30 shadow-lg shadow-red-600/20 bg-white flex flex-row justify-start items-center gap-5 rounded-lg ">
-          <div className="bg-red-600/70 px-3 py-3 rounded-md">
+        <div className="h-35 w-auto px-5 border border-[#a8823b] shadow-lg shadow-[#a8823b]/20 bg-white flex flex-row justify-start items-center gap-5 rounded-lg ">
+          <div className="bg-[#a8823b]/70 px-3 py-3 rounded-md">
             <img className="h-8 w-8" src={store}></img>
           </div>
 
@@ -299,8 +343,8 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="h-35 w-auto px-5 border border-red-500/30 shadow-lg shadow-red-600/20 bg-white flex flex-row justify-start items-center gap-5 rounded-lg ">
-          <div className="bg-red-600/70 px-3 py-3 rounded-md">
+        <div className="h-35 w-auto px-5 border border-[#a8823b] shadow-lg shadow-[#a8823b]/20 bg-white flex flex-row justify-start items-center gap-5 rounded-lg ">
+          <div className="bg-[#a8823b]/70 px-3 py-3 rounded-md">
             <img className="h-8 w-auto" src={delivery}></img>
           </div>
 
@@ -311,8 +355,8 @@ const Hero = () => {
         </div>
 
 
-        <div className="h-35 w-auto px-5 border border-red-500/30 shadow-lg shadow-red-600/20 bg-white flex flex-row justify-start items-center gap-5 rounded-lg">
-          <div className="bg-red-600/70 px-3 py-3 rounded-md">
+        <div className="h-35 w-auto px-5 border border-[#a8823b] shadow-lg shadow-[#a8823b]/20 bg-white flex flex-row justify-start items-center gap-5 rounded-lg">
+          <div className="bg-[#a8823b]/70 px-3 py-3 rounded-md">
             <img className="h-8 w-auto" src={insurance}></img>
           </div>
 
@@ -322,8 +366,8 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="h-35 w-auto px-5 border border-red-500/30 shadow-lg shadow-red-600/20 bg-white flex flex-row justify-start items-center gap-5 rounded-lg">
-          <div className="bg-red-600/70 px-3 py-3 rounded-md">
+        <div className="h-35 w-auto px-5 border border-[#a8823b] shadow-lg shadow-[#a8823b]/20 bg-white flex flex-row justify-start items-center gap-5 rounded-lg">
+          <div className="bg-[#a8823b]/70 px-3 py-3 rounded-md">
             <img className="h-8 w-auto" src={payment}></img>
           </div>
 

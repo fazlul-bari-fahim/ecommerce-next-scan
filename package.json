@@ -17,6 +17,7 @@
     "cors": "^2.8.6",
     "create": "^0.5.5",
     "create-vite": "^9.0.7",
+    "crypto": "^1.0.1",
     "dotenv": "^17.4.2",
     "express": "^4.22.1",
     "express-mongo-sanitize": "^2.2.0",

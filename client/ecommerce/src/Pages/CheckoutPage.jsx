@@ -1,4 +1,4 @@
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.jpeg"
 import check from "../assets/check1.png"
 import checkout from "../assets/secure-payment.png"
 import Cart from "../Components/Cart"
@@ -18,7 +18,7 @@ const CheckoutPage = () => {
 
 
     const { cartGetRequest, totalCart, allCart } = CartStore();
-    const calculation = cartCalculation(allCart);
+
 
 
     const navigate = useNavigate();
@@ -39,6 +39,9 @@ const CheckoutPage = () => {
     const [division, setdivision] = useState("");
     const [city, setcity] = useState("");
     const [zip, setzip] = useState("");
+
+
+    const calculation = cartCalculation(allCart);
 
     // cus detailes
 
@@ -155,8 +158,8 @@ const CheckoutPage = () => {
         <div>
             <div>
                 {/* header */}
-                <div className="bg-[#ed1d24] h-20 w-full max-[426px]:w-115 mb-2 px-20 max-[850px]:px-2 flex items-center justify-between">
-                    <img className="h-20 max-[850px]:h-15 " src={logo}></img>
+                <div className="bg-[#a8823b] h-25 w-full max-[426px]:w-115 mb-2 px-20  max-[850px]:px-2 flex items-center justify-between">
+                    <img className="h-20 max-[850px]:h-15 rounded-full " src={logo}></img>
 
                     <div className="flex ">
                         <div className="flex items-center">
@@ -414,7 +417,7 @@ const CheckoutPage = () => {
                         </div>
 
 
-                        <Total onOrder={handleSubmit} allCart={allCart} btntext={"Place Your Order"} />
+                        <Total onOrder={handleSubmit} allCart={allCart} calculation={calculation} btntext={"Place Your Order"} city={city} />
                     </div>
 
 

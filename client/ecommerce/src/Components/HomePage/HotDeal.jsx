@@ -126,7 +126,7 @@ const HotDeal = () => {
                     <div className="flex gap-8 max-[426px]:gap-3">
                         {/* time */}
                         <div className="mt-50 flex flex-col gap-3 items-center">
-                            <div className="h-30 w-30 max-[630px]:h-20 max-[630px]:w-20 max-[426px]:w-15 max-[426px]:h-15 bg-red-600 rounded-full  flex justify-center items-center">
+                            <div className="h-30 w-30 max-[630px]:h-20 max-[630px]:w-20 max-[426px]:w-15 max-[426px]:h-15 bg-[#a8823b] rounded-full  flex justify-center items-center">
                                 <h1 className="text-3xl text-white">{String(timeLeft.days).padStart(2, "0")}</h1>
                             </div>
                             <h1 className="text-gray-200 text-xl">DAYS</h1>
@@ -134,7 +134,7 @@ const HotDeal = () => {
 
 
                         <div className="mt-50 flex flex-col gap-3 items-center">
-                            <div className="h-30 w-30 max-[630px]:h-20 max-[630px]:w-20 max-[426px]:w-15 max-[426px]:h-15 bg-red-600 rounded-full  flex justify-center items-center">
+                            <div className="h-30 w-30 max-[630px]:h-20 max-[630px]:w-20 max-[426px]:w-15 max-[426px]:h-15 bg-[#a8823b] rounded-full  flex justify-center items-center">
                                 <h1 className="text-3xl text-white">{String(timeLeft.hours).padStart(2, "0")}</h1>
                             </div>
                             <h1 className="text-gray-200 text-xl">HOURS</h1>
@@ -142,7 +142,7 @@ const HotDeal = () => {
 
 
                         <div className="mt-50 flex flex-col gap-3 items-center">
-                            <div className="h-30 w-30 max-[630px]:h-20 max-[630px]:w-20 max-[426px]:w-15 max-[426px]:h-15 bg-red-600 rounded-full  flex justify-center items-center">
+                            <div className="h-30 w-30 max-[630px]:h-20 max-[630px]:w-20 max-[426px]:w-15 max-[426px]:h-15 bg-[#a8823b] rounded-full  flex justify-center items-center">
                                 <h1 className="text-3xl text-white">{String(timeLeft.minutes).padStart(2, "0")}</h1>
                             </div>
                             <h1 className="text-gray-200 text-xl">MINS</h1>
@@ -150,7 +150,7 @@ const HotDeal = () => {
 
 
                         <div className="mt-50 flex flex-col gap-3 items-center">
-                            <div className="h-30 w-30 max-[630px]:h-20 max-[630px]:w-20 max-[426px]:w-15 max-[426px]:h-15 bg-red-600 rounded-full  flex justify-center items-center">
+                            <div className="h-30 w-30 max-[630px]:h-20 max-[630px]:w-20 max-[426px]:w-15 max-[426px]:h-15 bg-[#a8823b] rounded-full  flex justify-center items-center">
                                 <h1 className="text-3xl text-white">{String(timeLeft.seconds).padStart(2, "0")}</h1>
                             </div>
                             <h1 className="text-gray-200 text-xl">SECS</h1>

@@ -14,6 +14,7 @@ import AllOrderPage from "../Pages/AllOrderPage.jsx"
 import PrivateRoute from "../Layouts/PrivateRoute.jsx"
 import Invoice from "../Pages/Invoice.jsx"
 import CategoryProductPage from "../Pages/CategoryProductPage.jsx"
+import SuccessMessage from "../Pages/SuccessMessage.jsx"
 
 
 
@@ -32,6 +33,7 @@ const Approute = () => {
         </Route>
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/thankyou" element={<ThankYouPage />} />
+        <Route path="/success-message" element={<SuccessMessage />} />
 
 
         <Route path="/dashboard-profile" element={<UserLayout />}>

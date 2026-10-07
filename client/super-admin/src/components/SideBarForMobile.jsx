@@ -25,7 +25,7 @@ const SideBarForMobile = () => {
 
             {/* for mobile view */}
 
-            <div className=" bg-[#ed1c23] h-25 fixed bottom-0 left-0 right-0 w-full overflow-x-auto shadow-xl border border-[#e1e1e3] ">
+            <div className=" bg-[#011949] h-25 fixed bottom-0 left-0 right-0 w-full overflow-x-auto shadow-xl border border-[#e1e1e3] ">
                 <div className=" shadow-xl border border-[#e1e1e3] w-max flex flex-row items-center">
 
 
@@ -67,9 +67,16 @@ const SideBarForMobile = () => {
 
 
 
-                            <NavLink to={'profile'} className={({ isActive }) => `w-40 h-20  text-md flex items-center justify-center  px-1 border-r-2 hover:cursor-pointer ${isActive ? "bg-white/30  font-bold" : ""}`}>
+                            <NavLink to={'/profile'} className={({ isActive }) => `w-40 h-20  text-md flex items-center justify-center  px-1 border-r-2 hover:cursor-pointer ${isActive ? "bg-white/30  font-bold" : ""}`}>
                                 Profile
                             </NavLink>
+
+                            <NavLink to={'/all-message'} className={({ isActive }) => `w-40 h-20  text-md flex items-center justify-center  px-1 border-r-2 hover:cursor-pointer ${isActive ? "bg-white/30  font-bold" : ""}`}>
+                                Message
+                            </NavLink>
+
+
+
 
                             <button onClick={() => handleLogout()} className="w-40 h-20 gap-3 bg-red-800 text-md flex items-center justify-center px-1 border-r-2 hover:cursor-pointer">
 

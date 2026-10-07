@@ -9,6 +9,7 @@ import hoatDealBlack from "../assets/hot-sale.png"
 import HotDeal from "../components/HotDeal"
 import HotDealStore from "../stores/HotDealStore"
 import RemoveHotDeals from "../components/RemoveHotDeals"
+import { fileURL } from "../helpers/config"
 
 
 const AllProducts = () => {
@@ -128,8 +129,8 @@ const AllProducts = () => {
                 <tr key={item?._id} className="flex bg-gray-300/50 hover:bg-gray-300/80 hover:cursor-pointer  px-3 py-2 rounded-lg items-center">
                   <td className="w-30 flex max-[426px]:hidden">{item?.category?.category_name}</td>
                   <td className="w-80  flex justify-center max-[426px]:hidden">{item?.title}</td>
-                  <td className="w-30  flex justify-center"><img className="h-10" src={`http://localhost:5000/api/v1/get-file/${item?.big_image}`}></img></td>
-                  <td className="w-30  flex justify-center max-[426px]:hidden">F&S Fahion</td>
+                  <td className="w-30  flex justify-center"><img className="h-10" src={`${fileURL}/${item?.big_image}`}></img></td>
+                  <td className="w-30  flex justify-center max-[426px]:hidden">{item?.brand?.brand_name}</td>
                   <td className="w-20 flex justify-center text-green-600 font-bold">{item?.stock}</td>
                   <td className="w-30  flex justify-center">{item?.regular_price}</td>
                   <td className="w-40  flex items-center justify-center">

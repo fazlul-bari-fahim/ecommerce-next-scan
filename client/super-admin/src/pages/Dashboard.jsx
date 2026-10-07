@@ -16,6 +16,7 @@ import {
 
 import { Bar, Pie } from "react-chartjs-2";
 import { NavLink } from "react-router-dom";
+import adminStore from "../stores/adminStore";
 
 ChartJS.register(
   CategoryScale,
@@ -37,6 +38,8 @@ const Dashboard = () => {
   const { productGetRequest, totalProduct } = productStore();
   const { getAllCategoryRequest, totalCategory } = categoryStore();
   const { getBrandRequest, totalBrand } = brandStore();
+  const { adminVerifyRequest, adminRequest } = adminStore();
+
 
 
   const totalOrders =
@@ -164,6 +167,26 @@ const Dashboard = () => {
 
 
 
+  useEffect(() => {
+
+    const verify = async () => {
+      const result = await adminVerifyRequest();
+
+
+
+      if (result) {
+        await adminRequest();
+      }
+    };
+
+    verify();
+
+  }, []);
+
+
+
+
+
 
 
   return (
@@ -172,7 +195,7 @@ const Dashboard = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 px-7 pb-10">
 
-          <div className="bg-white  rounded-xl shadow-lg p-5 border-5 border-green-800">
+          <div className="bg-[#a8823b]/50 text-[#011949]  rounded-xl shadow-lg p-5 border-5 border-[#011949]">
             <h2 className="text-2xl font-bold mb-5">
               Dashboard Statistics
             </h2>
@@ -182,7 +205,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-5 border-5 border-green-800">
+          <div className="bg-[#a8823b]/50 rounded-xl shadow-lg p-5 border-5 border-[#011949]">
             <h2 className="text-2xl font-bold mb-5">
               Order Status
             </h2>
@@ -198,16 +221,16 @@ const Dashboard = () => {
 
 
       <div className="max-[1300px]:h-auto min-[1300px]:h-screen w-auto grid max-[550px]:grid-cols-1 max-[800px]:grid-cols-2 min-[800px]:grid-cols-3 min-[1300px]:grid-cols-4 gap-7 px-7 py-7 content-start">
-        <NavLink to={"/all-orders"} className="h-30  bg-green-900 border-3 border-green-800 rounded-lg shadow-xl flex flex-col items-center justify-center">
+        <NavLink to={"/all-orders"} className="h-30  bg-[#a8823b]/50 border-3 border-[#011949] rounded-lg shadow-xl flex flex-col items-center justify-center">
 
-          <p className="text-4xl font-bold text-white">{AllInvoice?.ongoingOrder?.length + AllInvoice?.successOrder?.length + AllInvoice?.cancleOrder?.length}</p>
+          <p className="text-4xl font-bold text-green-800 ">{AllInvoice?.ongoingOrder?.length + AllInvoice?.successOrder?.length + AllInvoice?.cancleOrder?.length}</p>
 
           <h1 className="text-xl text-white">Total Order</h1>
 
         </NavLink>
 
 
-        <NavLink to={"/all-orders"} className="h-30  bg-green-500 rounded-lg shadow-xl flex flex-col items-center justify-center">
+        <NavLink to={"/all-orders"} className="h-30 bg-[#a8823b]/50 border-3 border-[#011949] rounded-lg shadow-xl flex flex-col items-center justify-center">
 
 
           <p className="text-5xl font-bold text-white">{AllInvoice?.ongoingOrder?.length}</p>
@@ -216,16 +239,16 @@ const Dashboard = () => {
         </NavLink>
 
 
-        <NavLink to={"/all-orders"} className="h-30  bg-yellow-200 rounded-lg shadow-xl flex flex-col items-center justify-center">
+        <NavLink to={"/all-orders"} className="h-30  bg-[#a8823b]/50 border-3 border-[#011949] rounded-lg shadow-xl flex flex-col items-center justify-center">
 
-          <p className="text-4xl font-bold text-green-600">{AllInvoice?.successOrder?.length}</p>
+          <p className="text-4xl font-bold">{AllInvoice?.successOrder?.length}</p>
 
           <h1 className="text-xl">Success Order</h1>
 
         </NavLink>
 
 
-        <NavLink to={"/all-orders"} className="h-30  bg-red-300 border-3 border-red-600 rounded-lg shadow-xl flex flex-col items-center justify-center">
+        <NavLink to={"/all-orders"} className="h-30  bg-[#a8823b]/50 border-3 border-[#011949] rounded-lg shadow-xl flex flex-col items-center justify-center">
 
           <p className="text-4xl font-bold">{AllInvoice?.cancleOrder?.length}</p>
 
@@ -236,7 +259,7 @@ const Dashboard = () => {
 
 
 
-        <div className="h-30  bg-white border-3 border-green-800 rounded-lg shadow-xl flex flex-col items-center justify-center">
+        <div className="h-30  bg-[#a8823b]/50 border-3 border-[#011949] rounded-lg shadow-xl flex flex-col items-center justify-center">
 
           <p className="text-3xl font-bold">  {Number(AllInvoice?.receivedPayment || 0).toLocaleString("en-US", {
             minimumFractionDigits: 2,
@@ -249,7 +272,7 @@ const Dashboard = () => {
         </div>
 
 
-        <div className="h-30  bg-white border-3 border-green-800 rounded-lg shadow-xl flex flex-col items-center justify-center">
+        <div className="h-30  bg-[#a8823b]/50 border-3 border-[#011949] rounded-lg shadow-xl flex flex-col items-center justify-center">
 
           <div className="flex gap-2">
             <p className="text-3xl font-bold">  {Number(AllInvoice?.receivedPayment || 0).toLocaleString("en-US", {
@@ -266,7 +289,7 @@ const Dashboard = () => {
 
 
 
-        <div className="h-30  bg-white border-3 border-green-800 rounded-lg shadow-xl flex flex-col items-center justify-center">
+        <div className="h-30  bg-[#a8823b]/50 border-3 border-[#011949] rounded-lg shadow-xl flex flex-col items-center justify-center">
 
           <p className="text-3xl font-bold">{totalProduct}</p>
 
@@ -278,7 +301,7 @@ const Dashboard = () => {
 
 
 
-        <div className="h-30  bg-white border-3 border-green-800 rounded-lg shadow-xl flex flex-col items-center justify-center">
+        <div className="h-30  bg-[#a8823b]/50 border-3 border-[#011949] rounded-lg shadow-xl flex flex-col items-center justify-center">
 
           <p className="text-4xl font-bold">{userData.length}</p>
 
@@ -288,7 +311,7 @@ const Dashboard = () => {
 
 
 
-        <div className="h-30  bg-white border-3 border-green-800 rounded-lg shadow-xl flex flex-col items-center justify-center">
+        <div className="h-30  bg-[#a8823b]/50 border-3 border-[#011949] rounded-lg shadow-xl flex flex-col items-center justify-center">
 
           <p className="text-3xl font-bold">{totalCategory}</p>
 
@@ -300,7 +323,7 @@ const Dashboard = () => {
 
 
 
-        <div className="h-30  bg-white border-3 border-green-800 rounded-lg shadow-xl flex flex-col items-center justify-center">
+        <div className="h-30  bg-[#a8823b]/50 border-3 border-[#011949] rounded-lg shadow-xl flex flex-col items-center justify-center">
 
           <p className="text-3xl font-bold">{totalBrand}</p>
 
@@ -311,7 +334,7 @@ const Dashboard = () => {
 
 
 
-        <div className="h-30  bg-white border-3 border-green-800 rounded-lg shadow-xl flex flex-col items-center justify-center">
+        <div className="h-30  bg-[#a8823b]/50 border-3 border-[#011949] rounded-lg shadow-xl flex flex-col items-center justify-center">
 
           <p className="text-3xl font-bold">{successRate.toFixed(2)}%</p>
 
@@ -322,7 +345,7 @@ const Dashboard = () => {
 
 
 
-        <div className="h-30  bg-white border-3 border-green-800 rounded-lg shadow-xl flex flex-col items-center justify-center">
+        <div className="h-30  bg-[#a8823b]/50 border-3 border-[#011949] rounded-lg shadow-xl flex flex-col items-center justify-center">
 
           <p className="text-3xl font-bold">{totalItemsSold}</p>
 

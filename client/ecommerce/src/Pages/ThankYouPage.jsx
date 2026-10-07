@@ -1,11 +1,11 @@
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.jpeg"
 import check from "../assets/check1.png"
 import { Link, NavLink } from "react-router-dom"
 import checked from "../assets/checked.png"
 import location from "../assets/location-pin.png"
 import InvoiceStore from "../Store/InvoiceStore"
 import { useEffect } from "react"
-import { fileURL } from "../helpers/config"
+import { fileURL } from "../helpers/Config.js"
 
 
 
@@ -46,8 +46,8 @@ const ThankYouPage = () => {
         <div>
             <div>
                 {/* header */}
-                <div className="bg-[rgb(237,29,36)] h-20 w-full mb-2 px-20 max-[426px]:px-2 flex items-center justify-between">
-                    <img className="h-20 max-[426px]:h-15" src={logo}></img>
+                <div className="bg-[#a8823b] h-25 w-full mb-2 px-20 max-[426px]:px-2 flex items-center justify-between">
+                    <img className="h-20 max-[426px]:h-15 rounded-full" src={logo}></img>
 
                     <div className="flex gap-5 max-[426px]:gap-3 text-white font-semibold">
                         <Link to={"/"}>Home</Link>

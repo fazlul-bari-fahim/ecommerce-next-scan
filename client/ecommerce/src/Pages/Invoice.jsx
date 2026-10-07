@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom"
 import InvoiceStore from "../Store/InvoiceStore";
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.jpeg"
 import jsPDF from "jspdf";
 import { toPng } from "html-to-image";
 
@@ -92,14 +92,14 @@ const Invoice = () => {
                         <div className="bg-black w-full h-2">
 
                         </div>
-                        <div className="bg-[#ed1c23] w-full h-50 flex flex-col items-center">
-                            <img className="h-20 w-20" src={logo}></img>
-                            <h3 className="font-semibold text-xl">Next Scan</h3>
+                        <div className="bg-[#a8823b] w-full h-50 flex flex-col items-center">
+                            <img className="h-20 w-20 rounded-full" src={logo}></img>
+                            <h3 className="font-semibold text-xl">NLM Crockery</h3>
                             <h3 className="font-semibold text-xl text-white">E-commerce store</h3>
                             <div className="flex gap-5 mt-2">
-                                <h4 className="text-white text-md border-r px-2">01327-XXX XXX</h4>
-                                <h4 className="text-white text-md border-r px-2">support@nextscan.com</h4>
-                                <h4 className="text-white text-md">10/B Panthoport, Dhaka-1200</h4>
+                                <h4 className="text-white text-md border-r px-2">+8801955 443-969</h4>
+                                <h4 className="text-white text-md border-r px-2">nlmcrockerys@gmail.com</h4>
+                                <h4 className="text-white text-md">Molibazar trade center,Mitford, Dhaka.</h4>
                             </div>
 
                         </div>

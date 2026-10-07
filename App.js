@@ -16,46 +16,88 @@ dotenv.config();                                        // .env ফাইল চ
 
 //  Connect to MongoDB 
 
-let URL = "mongodb+srv://ecommercepro1:ecommercePro123@blog-pro.d4ifzoj.mongodb.net/";
-         
 
-let option = {
-    user:process.env.DB_USER,
-    pass:process.env.DB_PASS,
-    autoIndex:true,                         // MongoDB automatic index বানাবে কি না
-    serverSelectionTimeoutMS:50000,         // MongoDB কতক্ষণ অপেক্ষা করবে server খুঁজে পাওয়ার জন্য (1 second = 1000 milliseconds)
-};
-
-
-
-
-mongoose.connect(URL,option).then((res)=>{ 
-    console.log("Database Connected");
+mongoose.connect(process.env.MONGO_URI, {
+    autoIndex: true,
+    serverSelectionTimeoutMS: 50000,
 })
-.catch((err)=>{
-    console.log(err)
-});
+    .then(() => {
+        console.log("Database Connected");
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+// let option = {
+//     user: process.env.DB_USER,
+//     pass: process.env.DB_PASS,
+//     autoIndex: true,                         // MongoDB automatic index বানাবে কি না
+//     serverSelectionTimeoutMS: 50000,         // MongoDB কতক্ষণ অপেক্ষা করবে server খুঁজে পাওয়ার জন্য (1 second = 1000 milliseconds)
+// };
 
 
-mongoose.set("strictQuery",false);      // { name: "Rahim", salary: 50000 } কিন্তু salary field তো database এ নেই 😵 /MongoDB বলবে: ✔️ “ঠিক আছে, যেটা আছে সেটা দিয়েই search করি”
+
+
+// mongoose.connect(URL, option).then((res) => {
+//     console.log("Database Connected");
+// })
+//     .catch((err) => {
+//         console.log(err)
+//     });
+
+
+mongoose.set("strictQuery", false);      // { name: "Rahim", salary: 50000 } কিন্তু salary field তো database এ নেই 😵 /MongoDB বলবে: ✔️ “ঠিক আছে, যেটা আছে সেটা দিয়েই search করি”
 
 
 
 // Global Middlewares
 
-app.use(cookieParser());                    // Browser থেকে আসা cookie read করতে পারে
+
+
+const allowedOrigins = [
+
+    // "https://alhamdulillahkitchenware.com",
+    // "https://admin.alhamdulillahkitchenware.com/",
+    "http://localhost:5173",
+    "http://localhost:3001",
+];
+
 app.use(
     cors({
-        origin: ["http://localhost:5173", "http://localhost:3001"],
-        credentials:true,           // Cookie / token send করার permission
+        origin: allowedOrigins,
+        credentials: true,
+        methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
 
+
+app.use(cookieParser());                    // Browser থেকে আসা cookie read করতে পারে
+
+
+
+
+app.use((req, res, next) => {
+    console.log("METHOD:", req.method);
+    console.log("URL:", req.originalUrl);
+    console.log("ORIGIN:", req.headers.origin);
+    next();
+});
+
+
+
+app.get("/api/test", (req, res) => {
+    res.json({
+        success: true,
+        message: "Backend connected successfully"
+    });
+});
+
 app.use(
     helmet.contentSecurityPolicy({              //  app কে hack থেকে protect করে
-        useDefaults:true,
-        directives:{
-            "img-src":["'self'","https:data:"]
+        useDefaults: true,
+        directives: {
+            "img-src": ["'self'", "https:data:"]
         },
     })
 );
@@ -64,11 +106,11 @@ app.use(
 app.use(hpp());
 
 
-app.use(express.json({limit:"50mb"}));          // Frontend থেকে JSON data আসে: Max JSON size = 50MB
-app.use(express.urlencoded({limit:"50mb"}));        // Form data কে: parse করে
+app.use(express.json({ limit: "50mb" }));          // Frontend থেকে JSON data আসে: Max JSON size = 50MB
+app.use(express.urlencoded({ limit: "50mb" }));        // Form data কে: parse করে
 
 app.use(mongoSanitize());
-const limiter = rateLimit({windowMs:15*60*1000, max:3000});  // 3000 requests per 15 minute / 15 মিনিটে: এক user max 3000 request
+const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 3000 });  // 3000 requests per 15 minute / 15 মিনিটে: এক user max 3000 request
 app.use(limiter);
 
 app.use("/api/v1", router);

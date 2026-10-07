@@ -45,12 +45,13 @@ const adminStore = create((set) => ({
     adminLoginLoading: false,
     adminLoginRequest: async (data) => {
         try {
+
             set({ adminLoginLoading: true });
             const res = await axios.post(`${baseURL}/admin-login`, data, {
                 withCredentials: true,
                 credentials: "include",
             });
-            console.log("Backend", res)
+
 
             if (res?.data?.success === true) {
                 set({ adminLoginLoading: false });
@@ -79,21 +80,27 @@ const adminStore = create((set) => ({
 
     adminVerifyRequest: async () => {
         try {
-            await axios.get(baseURL + `/admin-verify`, {
-                withCredentials: true,
-                credentials: "include",
-            });
-            return true;
 
-        } catch (error) {
-            console.log(error);
-            if (error?.response?.status === 401) {
-                window.location.href = "/super-admin/login";
+            const res = await axios.get(
+                `${baseURL}/admin-verify`,
+                {
+                    withCredentials: true,
+                }
+            );
+
+
+
+            if (res?.data?.success === true) {
+                return true;
             }
-            toast.error("something went wrong");
+
             return false;
 
+        } catch (error) {
 
+            console.log("ADMIN VERIFY ERROR:", error);
+
+            return false;
         }
     },
 

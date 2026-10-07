@@ -65,7 +65,7 @@ const PopularCategories = () => {
     <div className="w-full flex flex-col items-center relative py-5">
       {/* text */}
       <div className="flex flex-col mb-10">
-        <h1 className="text-xl my-10 bg-red-600 px-4 py-1 text-white">Popular Categories</h1>
+        <h1 className="text-xl my-10 bg-[#1f2736] px-4 py-1 text-white">Popular Categories</h1>
 
       </div>
 

@@ -6,7 +6,7 @@ import ratting from "../../assets/rating5.png"
 
 const Review = () => {
     return (
-        <div className="w-full h-auto bg-red-600 px-10 py-15 flex flex-col gap-3 justify-center items-center">
+        <div className="w-full h-auto bg-[#1f2736] px-10 py-15 flex flex-col gap-3 justify-center items-center">
 
             <h3 className="text-xl text-white max-[321px]:text-sm">What Clients are Saying</h3>
             <h1 className="text-4xl font-bold text-center text-white max-[321px]:text-lg">We Value Each of Our Customers</h1>
@@ -18,52 +18,83 @@ const Review = () => {
                 {/* Review */}
                 <div className="bg-gray-50 w-100 max-[770px]:w-80 max-[321px]:w-60  h-120  justify-center items-center px-10 py-4 rounded-md shadow shadow-black/30 flex flex-col gap-3">
                     <img src={comment}></img>
-                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">Amazing drone! The camera quality is outstanding, and the flight controls are incredibly smooth. Perfect for capturing aerial footage.</h2>
+                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">This is a very high quality product...best products in affordable price ❤️ e product gulo khub fresh and modern dekhle bujha  jacche...
+                        The glass quality is quite good,and it gives confidence during use!!!! ❤️❤️</h2>
                     <img className="h-5" src={ratting}></img>
-                    <h4 className="text-lg font-bold">James R.</h4>
+                    <h4 className="text-lg font-bold">Sultana Akter</h4>
                 </div>
 
 
                 <div className="bg-gray-50 w-100 max-[770px]:w-80 max-[321px]:w-60  h-120  justify-center items-center px-10 py-4 rounded-md shadow shadow-black/30 flex flex-col gap-3">
                     <img src={comment}></img>
-                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">Amazing drone! The camera quality is outstanding, and the flight controls are incredibly smooth. Perfect for capturing aerial footage.</h2>
+                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">বেস্ট প্রোডাক্ট আমি ইউজ করেছি । এবং মানসম্মত প্রোডাক্ট ব্যবহার করার পর বুজা যায় যে ভালো নাকি আমি satisfaction</h2>
                     <img className="h-5" src={ratting}></img>
-                    <h4 className="text-lg font-bold">James R.</h4>
-                </div>
-
-
-
-                <div className="bg-gray-50 w-100 max-[770px]:w-80 max-[321px]:w-60  h-120  justify-center items-center px-10 py-4 rounded-md shadow shadow-black/30 flex flex-col gap-3">
-                    <img src={comment}></img>
-                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">Amazing drone! The camera quality is outstanding, and the flight controls are incredibly smooth. Perfect for capturing aerial footage.</h2>
-                    <img className="h-5" src={ratting}></img>
-                    <h4 className="text-lg font-bold">James R.</h4>
+                    <h4 className="text-lg font-bold">Antara Akter</h4>
                 </div>
 
 
 
                 <div className="bg-gray-50 w-100 max-[770px]:w-80 max-[321px]:w-60  h-120  justify-center items-center px-10 py-4 rounded-md shadow shadow-black/30 flex flex-col gap-3">
                     <img src={comment}></img>
-                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">Amazing drone! The camera quality is outstanding, and the flight controls are incredibly smooth. Perfect for capturing aerial footage.</h2>
+                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">best product. ami peye onk happy product ta jmn dekhsi temon e peyechi.</h2>
                     <img className="h-5" src={ratting}></img>
-                    <h4 className="text-lg font-bold">James R.</h4>
+                    <h4 className="text-lg font-bold">Zaara Islam</h4>
+                </div>
+
+
+
+                <div className="bg-gray-50 w-100 max-[770px]:w-80 max-[321px]:w-60  h-120  justify-center items-center px-10 py-4 rounded-md shadow shadow-black/30 flex flex-col gap-3">
+                    <img src={comment}></img>
+                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">good product, fast service</h2>
+                    <img className="h-5" src={ratting}></img>
+                    <h4 className="text-lg font-bold">Walid Hasan Ratul</h4>
                 </div>
 
 
                 <div className="bg-gray-50 w-100 max-[770px]:w-80 max-[321px]:w-60  h-120  justify-center items-center px-10 py-4 rounded-md shadow shadow-black/30 flex flex-col gap-3">
                     <img src={comment}></img>
-                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">Amazing drone! The camera quality is outstanding, and the flight controls are incredibly smooth. Perfect for capturing aerial footage.</h2>
+                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">it was good. and i'm satisfied to used it</h2>
                     <img className="h-5" src={ratting}></img>
-                    <h4 className="text-lg font-bold">James R.</h4>
+                    <h4 className="text-lg font-bold">Orruk Hossain</h4>
                 </div>
 
 
                 <div className="bg-gray-50 w-100 max-[770px]:w-80 max-[321px]:w-60  h-120  justify-center items-center px-10 py-4 rounded-md shadow shadow-black/30 flex flex-col gap-3">
                     <img src={comment}></img>
-                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">Amazing drone! The camera quality is outstanding, and the flight controls are incredibly smooth. Perfect for capturing aerial footage.</h2>
+                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">Loved the products qualities. Worth it</h2>
                     <img className="h-5" src={ratting}></img>
-                    <h4 className="text-lg font-bold">James R.</h4>
+                    <h4 className="text-lg font-bold">Musfika Afrin</h4>
                 </div>
+
+
+
+                <div className="bg-gray-50 w-100 max-[770px]:w-80 max-[321px]:w-60  h-120  justify-center items-center px-10 py-4 rounded-md shadow shadow-black/30 flex flex-col gap-3">
+                    <img src={comment}></img>
+                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">Product gulo onk valo, picture a jemon dewa same product e peyachi,</h2>
+                    <img className="h-5" src={ratting}></img>
+                    <h4 className="text-lg font-bold">Lamia Afrin</h4>
+                </div>
+
+
+
+
+                <div className="bg-gray-50 w-100 max-[770px]:w-80 max-[321px]:w-60  h-120  justify-center items-center px-10 py-4 rounded-md shadow shadow-black/30 flex flex-col gap-3">
+                    <img src={comment}></img>
+                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">best product ami niyechi ammu onk pochondo korsen dhonnobad nlm crockreys</h2>
+                    <img className="h-5" src={ratting}></img>
+                    <h4 className="text-lg font-bold">Lamia Afrin</h4>
+                </div>
+
+
+
+
+                <div className="bg-gray-50 w-100 max-[770px]:w-80 max-[321px]:w-60  h-120  justify-center items-center px-10 py-4 rounded-md shadow shadow-black/30 flex flex-col gap-3">
+                    <img src={comment}></img>
+                    <h2 className="text-md text-gray-700 text-center max-[321px]:text-sm">Absolutely good page everyone should visit this page the products are amazing</h2>
+                    <img className="h-5" src={ratting}></img>
+                    <h4 className="text-lg font-bold">Someone</h4>
+                </div>
+
 
 
 

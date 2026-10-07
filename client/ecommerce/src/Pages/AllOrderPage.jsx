@@ -11,7 +11,7 @@ const AllOrderPage = () => {
 
 
     const navigate = useNavigate();
-    console.log(AllInvoice)
+
 
 
     useEffect(() => {

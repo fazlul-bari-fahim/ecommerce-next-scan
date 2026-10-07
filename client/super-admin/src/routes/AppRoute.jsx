@@ -12,6 +12,7 @@ import PrivateRoute from "../layouts/privateRoute"
 import AdminLogin from "../pages/super-admin/AdminLogin"
 import SingleOrderPage from "../pages/SingleOrderPage"
 import EditProductPage from "../pages/EditProductPage"
+import Message from "../pages/Message"
 
 const AppRoute = () => {
   return (
@@ -27,6 +28,7 @@ const AppRoute = () => {
           <Route path="/brand" element={<PrivateRoute><Brand /></PrivateRoute>} />
           <Route path="/all-orders" element={<PrivateRoute><AllOrders /></PrivateRoute>} />
           <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+          <Route path="/all-message" element={<PrivateRoute><Message /></PrivateRoute>} />
           <Route path="/all-orders/single-order/:id" element={<PrivateRoute><SingleOrderPage /></PrivateRoute>} />
 
 

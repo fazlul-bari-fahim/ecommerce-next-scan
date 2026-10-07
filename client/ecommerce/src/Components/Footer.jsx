@@ -1,5 +1,5 @@
 import copyright from "../assets/copyright.png"
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.jpeg"
 import fb from "../assets/facebook.png"
 import youtube from "../assets/youtube.png"
 import insta from "../assets/instagram.png"
@@ -34,13 +34,26 @@ const Footer = () => {
                         </img>
                         <h3 className="text-white/50">Call Us 24/7</h3>
                         <h1 className="text-white text-2xl">+8801453-526 120</h1>
-                        <h2 className="text-white/90 text-xl"> 215 Multiplan, Elephent Road, Dhaka</h2>
-                        <h3 className="text-lg text-gray-300 underline">contact@gocart.com</h3>
+                        <h2 className="text-white/90 text-xl"> Molibazar trade center,Mitford, Dhaka.</h2>
+                        <h3 className="text-lg text-gray-300 underline">nlmcrockerys@gmail.com</h3>
                         <div className="flex flex-row gap-8">
-                            <img className="h-8 w-8" src={fb}></img>
-                            <img className="h-8 w-8" src={youtube}></img>
-                            <img className="h-8 w-8" src={insta}></img>
-                            <img className="h-8 w-8" src={twit}></img>
+
+                            <div>
+                                <img className="h-8 w-8" src={fb}></img>
+                                <a href="https://www.facebook.com/nlmcrockerys" className="text-white">view</a>
+                            </div>
+                            <div>
+                                <img className="h-8 w-8" src={youtube}></img>
+                                <a href="https://www.facebook.com/nlmcrockerys" className="text-white">view</a>
+                            </div>
+                            <div>
+                                <img className="h-8 w-8" src={insta}></img>
+                                <a href="https://www.facebook.com/nlmcrockerys" className="text-white">view</a>
+                            </div>
+                            <div>
+                                <img className="h-8 w-8" src={twit}></img>
+                                <a href="https://www.facebook.com/nlmcrockerys" className="text-white">view</a>
+                            </div>
 
                         </div>
 
@@ -74,7 +87,7 @@ const Footer = () => {
                     <iframe
                         className="rounded-lg"
                         title="Google Map"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3404.956025477763!2d90.38296581058205!3d23.73870057858942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8c78b718c03%3A0x85f0047e17dda266!2sMultiplan%20Computer%20City%20Center%2C%20341%20New%20Elephant%20Rd%2C%20Dhaka%201205!5e1!3m2!1sen!2sbd!4v1780558434604!5m2!1sen!2sbd"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.9170854357767!2d90.3981281!3d23.714654799999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b9a81835e95f%3A0xf4c17b92a7ae0a26!2sMoulvibazar%20Trade%20Centre!5e0!3m2!1sen!2sbd!4v1786908006721!5m2!1sen!2sbd"
                         width="100%"
                         height="100%"
                         style={{ border: 0 }}
@@ -91,7 +104,7 @@ const Footer = () => {
             {/* 2nd section */}
             <div className=" flex flex-row border-t-2 border-white  justify-center items-center  py-8 h-20 px-8">
                 <div className="flex flex-row items-center gap-5">
-                    <h2 className="text-white text-lg max-[426px]:text-[10px]">Copyright</h2> <img className="h-7 w-7 max-[426px]:w-5 max-[426px]:h-5" src={copyright}></img> <h2 className=" text-white text-lg max-[426px]:text-[10px]">2026 Go Cart. Created By MERN</h2>
+                    <h2 className="text-white text-lg max-[426px]:text-[10px]">Copyright</h2> <img className="h-7 w-7 max-[426px]:w-5 max-[426px]:h-5" src={copyright}></img> <h2 className=" text-white text-lg max-[426px]:text-[10px]">2026 nlm crockery. Created By MERN</h2>
                 </div>
             </div>
 

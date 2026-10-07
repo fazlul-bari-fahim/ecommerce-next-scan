@@ -2,6 +2,7 @@ import edit from "../assets/editing.png"
 import Delete from "../assets/delete.png"
 import { useEffect, useState } from "react"
 import brandStore from "../stores/brandStore"
+import { fileURL } from "../helpers/config"
 
 
 const Brand = () => {
@@ -127,7 +128,7 @@ const Brand = () => {
               <div className="flex flex-row max-[426px]:items-center gap-10 max-[426px]:gap-3">
                 <h1 className="text-2xl font-bold w-60 max-[426px]:w-25 max-[426px]:text-[15px]">{item?.brand_name}</h1>
                 <div className="bg-gray-400/40 h-10 w-12 rounded-lg flex justify-center items-center">
-                  <img className="h-7 w-7" src={`http://localhost:5000/api/v1/get-file/${item?.brand_image}`}></img>
+                  <img className="h-7 w-7" src={`${fileURL}/${item?.brand_image}`}></img>
                 </div>
 
 

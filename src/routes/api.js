@@ -16,6 +16,11 @@ import fileController from "../controllers/fileController.js";
 import dashboardController from "../controllers/dashboardControllerSummary.js";
 import { DownloadInvoice } from "../controllers/InvoiceDownload.js";
 import HotDealController from "../controllers/HotDealController.js";
+import contactController from "../controllers/contactController.js";
+import ParentcategoryController from "../controllers/parentCategoryController.js";
+import childCategoryController from "../controllers/ChildCategoryController.js";
+import orderController from "../controllers/orderController.js";
+import DiscountCardController from "../controllers/discountController.js";
 
 
 
@@ -41,35 +46,18 @@ router.get("/all-user", authVerificationAdmin, userController.Alluser);
 
 
 // Products Route
-router.post("/product-create", authVerificationAdmin, upload.fields(
-    [
-        { name: "big_image", maxCount: 1 },
-        { name: "image1", maxCount: 1 },
-        { name: "image2", maxCount: 1 },
-        { name: "image3", maxCount: 1 },
-        { name: "image4", maxCount: 1 },
-    ]
-), productController.createProduct);
-router.get("/all-products/:category_id/:brand_id/:remark/:keyword/:per_page/:page_no", upload.fields(
-    [
-        { name: "big_image", maxCount: 1 },
-        { name: "image1", maxCount: 1 },
-        { name: "image2", maxCount: 1 },
-        { name: "image3", maxCount: 1 },
-        { name: "image4", maxCount: 1 },
-    ]
-), productController.allProducts);
+router.post("/product-create", authVerificationAdmin, upload.fields([
+    { name: "product_images", maxCount: 5 },
+    { name: "group_images", maxCount: 5 },
+]), productController.createProduct);
+router.get("/all-products/:category_id/:remark/:keyword/:per_page/:page_no/:from_price/:to_price", productController.allProducts);
+
 router.get("/single-products/:id", productController.singleProducts);
-router.get("/category-products/:id", productController.categoryProducts);
-router.put("/update-products/:id", authVerificationAdmin, upload.fields(
-    [
-        { name: "big_image", maxCount: 1 },
-        { name: "image1", maxCount: 1 },
-        { name: "image2", maxCount: 1 },
-        { name: "image3", maxCount: 1 },
-        { name: "image4", maxCount: 1 },
-    ]
-), productController.updateProducts);
+router.get("/parentcategory-products/:id", productController.parentCategoryProducts);
+router.put("/update-products/:id", authVerificationAdmin, upload.fields([
+    { name: "product_images", maxCount: 5 },
+    { name: "group_images", maxCount: 5 },
+]), productController.updateProducts);
 router.delete("/delete-products/:id", authVerificationAdmin, productController.deleteProduct);
 router.get("/search-suggestion/:keyword", productController.searchSuggestion);
 
@@ -79,8 +67,28 @@ router.get("/search-suggestion/:keyword", productController.searchSuggestion);
 router.post("/category-create", authVerificationAdmin, upload.single("category_image"), categoryController.create);
 router.get("/all-category/:per_page/:page_no", categoryController.getAllCategory);
 router.get("/single-category/:id", categoryController.getSingleCategory);
-router.put("/update-category/:id", authVerificationAdmin, upload.single("category_image"), categoryController.updateCategory);
+router.put("/update-category/:id", upload.single("category_image"), categoryController.updateCategory);
 router.delete("/delete-category/:id", authVerificationAdmin, categoryController.deleteCategory);
+
+
+
+// Parent Category 
+router.post("/parentcategory-create", authVerificationAdmin, upload.single("parentcategory_image"), ParentcategoryController.create);
+router.get("/allparent-category/:per_page/:page_no", ParentcategoryController.getAllCategory);
+router.get("/single-parentcategory/:id", ParentcategoryController.getSingleCategory);
+router.put("/update-parentcategory/:id", upload.single("parentcategory_image"), ParentcategoryController.updateCategory);
+router.delete("/delete-parentcategory/:id", authVerificationAdmin, ParentcategoryController.deleteCategory);
+
+
+// Child Category 
+router.post("/childcategory-create", authVerificationAdmin, upload.single("childcategory_image"), childCategoryController.create);
+router.get("/allchild-category/:per_page/:page_no", childCategoryController.getAllCategory);
+router.get("/single-childcategory/:id", childCategoryController.getSingleCategory);
+router.get("/single-childcategorybyparent/:id", childCategoryController.getSingleCategorybyParent);
+router.put("/update-childcategory/:id", upload.single("childcategory_image"), childCategoryController.updateCategory);
+router.delete("/delete-childcategory/:id", authVerificationAdmin, childCategoryController.deleteCategory);
+
+
 
 
 // Brand Route 
@@ -98,10 +106,21 @@ router.get("/all-review-by-product/:product_id", reviewController.getAllReviewBy
 
 
 // Cart Route
-router.post("/create-cart", authVerificationUser, upload.fields([{ name: "big_image", maxCount: 1 }]), cartController.createCart);
-router.get("/read-cart", authVerificationUser, upload.fields([{ name: "big_image", maxCount: 1 }]), cartController.readCart);
-router.put("/update-cart/:cart_id", authVerificationUser, cartController.updateCart);
-router.delete("/delete-cart/:cart_id", authVerificationUser, cartController.cartDelete);
+router.post("/create-cart", cartController.addToCart);
+router.get("/read-cart", cartController.getCartItem);
+router.get("/getall-cart", cartController.getAllCart);
+router.put("/update-cart/:item_id", cartController.updateCartQuantity);
+router.delete("/delete-cart/:cart_id", cartController.removeCartItem);
+router.delete("/deletecart/:cart_id", cartController.deleteCart);
+// router.post("/create-cart", authVerificationUser, upload.fields([{ name: "big_image", maxCount: 1 }]), cartController.createCart);
+
+
+
+// Order Route  
+router.post("/confirm-order", orderController.createOrder);
+router.get("/getsingle-order/:id", orderController.getSingleOrder);
+router.get("/getall-order/:per_page/:page_no", authVerificationAdmin, orderController.getAllOrders);
+router.put("/update-order-status/:id", authVerificationAdmin, orderController.updateOrderStatus);
 
 
 
@@ -165,6 +184,35 @@ router.get("/invoice/:id", authVerificationUser, DownloadInvoice);
 router.post("/hotdeal-create", authVerificationAdmin, HotDealController.create);
 router.get("/hotdeal-get", HotDealController.get);
 router.delete("/hotdeal-delete/:id", authVerificationAdmin, HotDealController.HotDealdelete);
+
+
+
+// contact route
+router.post("/contact-create", contactController.create);
+router.get("/allcontact/:per_page/:page_no", authVerificationAdmin, contactController.getAllContact);
+router.delete("/delete-contact/:id", authVerificationAdmin, contactController.deleteContact);
+
+
+// subscriber 
+
+
+router.post(
+    "/discount-card/create",
+    DiscountCardController.create
+);
+
+
+router.get(
+    "/discount-card/get",
+    DiscountCardController.get
+);
+
+
+router.delete(
+    "/discount-card/delete/:id",
+    DiscountCardController.DiscountCarddelete
+);
+
 
 
 

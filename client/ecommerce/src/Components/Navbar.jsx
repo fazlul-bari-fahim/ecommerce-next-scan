@@ -1,4 +1,4 @@
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.jpeg"
 import cart from "../assets/grocery-store.png"
 import user from "../assets/user.png"
 import search from "../assets/search (1).png"
@@ -112,12 +112,12 @@ const Navbar = ({ setCartPopup }) => {
 
     return (
         <div className="flex flex-col justify-center py-5 gap-3 items-center  w-full  bg-[#fef8fc]">
-            <div className="bg-[#ed1d24] flex items-center justify-between px-10 max-[376px]:px-5 w-300 max-[1025px]:w-230   max-[770px]:w-180 max-[376px]:w-90 max-[426px]:w-100 max-[321px]:w-75  h-25 rounded-2xl">
+            <div className="bg-[#a8823b] flex items-center justify-between px-10 max-[376px]:px-5 w-300 max-[1025px]:w-230   max-[770px]:w-180 max-[376px]:w-90 max-[426px]:w-100 max-[321px]:w-75  h-25 rounded-2xl">
 
                 {/* Logo */}
                 <div className="flex justify-center items-center">
-                    <img className="h-15  w-15 max-[426px]:h-12 max-[426px]:w-12" src={logo}></img>
-                    <h1 className="font-bold text-2xl max-[1023px]:hidden">Next Scan</h1>
+                    <img className="h-15  w-15 max-[426px]:h-12 max-[426px]:w-12 rounded-full" src={logo}></img>
+
                 </div>
 
                 {/* search bar section */}
@@ -160,7 +160,7 @@ const Navbar = ({ setCartPopup }) => {
                                         >
 
                                             <img
-                                                src={`http://localhost:5000/api/v1/get-file/${item.big_image}`}
+                                                src={`${fileURL}/${item.big_image}`}
                                                 className="w-12 h-12 object-cover rounded"
                                             />
 
@@ -209,7 +209,7 @@ const Navbar = ({ setCartPopup }) => {
                     </div>
                     <div className="felx flex-col items-center justify-center px-1 py-1">
                         <h1 className="text-white text-sm font-bold max-[930px]:text-[10px] max-[705px]:text-[6px]">Need Help? Call Us:</h1>
-                        <h1 className="text-white text-md max-[930px]:text-[10px] max-[705px]:text-[7px]">+88013-4545 4565</h1>
+                        <h1 className="text-white text-md max-[930px]:text-[10px] max-[705px]:text-[7px]">+8801955 443-969 </h1>
                     </div>
 
                 </div>
@@ -218,7 +218,7 @@ const Navbar = ({ setCartPopup }) => {
 
                 {/* Cart Icon */}
                 <div className="flex gap-8 max-[930px]:gap-4 max-[725px]:gap-4 max-[490px]:gap-3 relative">
-                    <button className="cursor-pointer" onClick={() => navigate("/dashboard-profile")}><img className="h-8 w-8 max-[930px]:h-5 max-[930px]:w-5" src={user}></img></button>
+                    <button className="cursor-pointer" onClick={() => navigate("/dashboard-profile")}><img className="h-8 w-8 max-[930px]:h-5 max-[930px]:w-5 border-2 border-white rounded-full" src={user}></img></button>
                     {/* <img className="h-8 w-8 max-[930px]:h-5 max-[930px]:w-5" src={heart}></img> */}
                     {/* <div className="bg-black h-5 w-5 rounded-full absolute left-20 max-[930px]:left-12 max-[930px]:bottom-3 bottom-5 flex justify-center items-center">
                     <p className="text-white font-bold ">0</p>
@@ -241,7 +241,7 @@ const Navbar = ({ setCartPopup }) => {
 
             </div>
 
-            <div className="bg-black  flex justify-between max-[321px]:justify-center items-center px-5 w-300 max-[1025px]:w-230 max-[770px]:w-180 max-[426px]:w-100 max-[376px]:w-90 max-[321px]:w-75   h-15 rounded-2xl">
+            <div className="bg-[#1f2736]  flex justify-between max-[321px]:justify-center items-center px-5 w-300 max-[1025px]:w-230 max-[770px]:w-180 max-[426px]:w-100 max-[376px]:w-90 max-[321px]:w-75   h-15 rounded-2xl">
 
                 {/* department */}
                 <div onClick={() => setDepartment(!department)} className="bg-white max-[321px]:hidden  cursor-pointer h-10 w-60 max-[885px]:w-50 max-[750px]:w-20  rounded-md flex items-center px-2 justify-between">

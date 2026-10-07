@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom"
 import cartCalculation from "../Helpers/Calculation";
 
-const Total = ({ btntext, refferURL, allCart, onOrder }) => {
+const Total = ({ btntext, refferURL, allCart, onOrder, city }) => {
 
 
 
-    const calculation = cartCalculation(allCart);
+
+
+
+    const calculation = cartCalculation(allCart, city);
+
 
 
     return (
@@ -24,7 +28,7 @@ const Total = ({ btntext, refferURL, allCart, onOrder }) => {
             </div>
 
             {/* Checkout button */}
-            <Link onClick={onOrder} to={`/${refferURL}`} className="bg-black hover:bg-red-800 text-white py-2 font-semibold rounded-sm flex justify-center hover:bg-[#5f017b]/90 transition-all active:scale-95 duration-200">{btntext}</Link>
+            <Link onClick={onOrder} to={`/${refferURL}`} className="bg-[#1f2736] hover:bg-red-800 text-white py-2 font-semibold rounded-sm flex justify-center hover:bg-[#5f017b]/90 transition-all active:scale-95 duration-200">{btntext}</Link>
 
         </div>
     )

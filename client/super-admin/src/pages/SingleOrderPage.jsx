@@ -119,10 +119,10 @@ const SingleOrderPage = () => {
     return (
         <div>
 
-            <div onClick={() => downloadPDF()} className="bg-gray-200 h-atuo py-20 w-full  flex flex-col justify-center items-center shadow-xl shadow-black">
+            <div className="bg-gray-200 h-atuo py-20 w-full  flex flex-col justify-center items-center shadow-xl shadow-black">
 
 
-                <button className="bg-white py-2 px-3 mb-10 border border-gray-400 rounded-sm  shadow-lg  cursor-pointer transition-all active:scale-90 duration-500">Download Order Copy</button>
+                <button onClick={() => downloadPDF()} className="bg-white py-2 px-3 mb-10 border border-gray-400 rounded-sm  shadow-lg  cursor-pointer transition-all active:scale-90 duration-500">Download Order Copy</button>
 
 
 
@@ -136,13 +136,13 @@ const SingleOrderPage = () => {
                     <div className="bg-black w-full h-2">
 
                     </div>
-                    <div className="bg-[#ed1c23] w-full h-35 flex flex-col items-center">
-                        <h3 className="font-semibold text-xl mt-5">Next Scan</h3>
+                    <div className="bg-[#a8823b] w-full h-35 flex flex-col items-center">
+                        <h3 className="font-semibold text-xl mt-5">NLM Crockery</h3>
                         <h3 className="font-semibold text-xl text-white">E-commerce store</h3>
                         <div className="flex gap-5 mt-2">
-                            <h4 className="text-white text-md border-r px-2">01327-XXX XXX</h4>
-                            <h4 className="text-white text-md border-r px-2">support@nextscan.com</h4>
-                            <h4 className="text-white text-md">10/B Panthoport, Dhaka-1200</h4>
+                            <h4 className="text-white text-md border-r px-2">+8801955 443-969</h4>
+                            <h4 className="text-white text-md border-r px-2">nlmcrockerys@gmail.com</h4>
+                            <h4 className="text-white text-md">Molibazar trade center,Mitford, Dhaka.</h4>
                         </div>
 
                     </div>
